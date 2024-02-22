@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Stats from "./Stats";
 import Agents from "./Agents";
 import Users from "./Users";
@@ -43,7 +43,20 @@ export default function AdminDashboard() {
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
+  const [contacts, setContacts] = useState([]);
+  const [contactCount, setContactCount] = useState(0);
 
+  useEffect(() => {
+    // Fetch contacts and count from the backend API
+    fetch("http://localhost:5000/contacts")
+      .then((response) => response.json())
+      .then((data) => {
+        setContacts(data.contacts);
+        setContactCount(data.count);
+      })
+      .catch((error) => console.error("Error fetching contacts:", error));
+  }, []);
+  
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
@@ -174,7 +187,7 @@ export default function AdminDashboard() {
               Messages
               <ListItemSuffix>
                 <Chip
-                  value="14"
+                  value={contactCount.toString()}
                   size="sm"
                   variant="ghost"
                   color="blue-gray"

@@ -1,42 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 
-const userData = [
-  {
-    name: 'Samuel Bernard',
-    email: 'Sam@gmail.com',
-    contact: '9849291970',
-  },
-  {
-    name: 'Dean Bernard',
-    email: 'Dean@gmail.com',
-    contact: '9849291970',
-  },
-  {
-    name: 'Jack Beranard',
-    email: 'Jack@gmail.com',
-    contact: '9849291970',
-  },
-  {
-    name: 'Bunni Bernard',
-    email: 'BUnni@gmail.com',
-    contact: '9849291970',
-  },
-  {
-    name: 'Saturn bernard',
-    email: 'Saturn@gmail.com',
-    contact: '9849291970',
-  },
-];
-
 const Users = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [userData, setUserData] = useState([]);
 
-  const filteredUsers = userData.filter((user) => {
+  useEffect(() => {
+    // Fetch data from the backend API when the component mounts
+    const fetchData = async () => {
+      try {
+        console.log("Fetching Data....")
+        const response = await fetch('http://localhost:5000/users');
+        const data = await response.json();
+        console.log(data);
+        setUserData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const filteredUsers = userData.filter((users) => {
     return (
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      users.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      users.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
   });
 
@@ -79,7 +69,7 @@ const Users = () => {
         </div>
       </div>
 
-      {filteredUsers.map((user, key) => (
+      {filteredUsers.map((users, key) => (
         <div
           className={`grid grid-cols-3 sm:grid-cols-3 ${
             key === filteredUsers.length - 1
@@ -90,17 +80,17 @@ const Users = () => {
         >
           <div className="flex items-center p-3 xl:p-5">
             <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="hidden ml-2 text-gray-160 dark:text-white sm:block">{user.name}</p>
+            <p className="hidden ml-2 text-gray-160 dark:text-white sm:block">{users.name}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
             <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="hidden ml-2 text-gray-160 dark:text-white sm:block">{user.email}</p>
+            <p className="hidden ml-2 text-gray-160 dark:text-white sm:block">{users.email}</p>
           </div>
 
           <div className="flex items-center space-x-7 p-3 xl:p-5">
               <FontAwesomeIcon icon={faPhone} className="h-4 w-4 text-green-400 dark:text-white" />
-              <p className="hidden ml-4 text-gray-160 dark:text-white sm:block">{user.contact}</p>
+              <p className="hidden ml-4 text-gray-160 dark:text-white sm:block">{users.mobile}</p>
         </div>
         </div>
       ))}
