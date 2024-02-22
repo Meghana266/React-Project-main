@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+
 
 const PostHouse = () => {
     const [formData, setFormData] = useState({
@@ -13,6 +15,8 @@ const PostHouse = () => {
         contactInfo: '',
         images: [] // Change 'image' to an array to store multiple images
     });
+
+    const userId = useSelector(state => state.user.userId); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -32,7 +36,10 @@ const PostHouse = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
+
+        // Add userId to the form data
+        formData.userId = userId;
+
         const formDataToSend = new FormData();
 
         for (let key in formData) {
@@ -57,10 +64,10 @@ const PostHouse = () => {
                 alert('Failed to Post House');
             }
         } catch (error) {
-            alert('Error:', error);
+            console.error('Error:', error);
+            alert('Failed to Post House');
         }
 
-    
         // Reset the form
         setFormData({
             title: '',
@@ -75,7 +82,6 @@ const PostHouse = () => {
             images: []
         });
     };
-    
     
 
 

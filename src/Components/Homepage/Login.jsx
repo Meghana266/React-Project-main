@@ -1,11 +1,13 @@
 import React, { useState } from 'react';// Import your login action
-import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../../actions';
+import { useDispatch ,useSelector} from 'react-redux';
+import { setUserInfo } from '../../actions'; 
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ hideLoginContainer}) => {// Get the dispatch function
     const dispatch = useDispatch(); 
     const navigate = useNavigate();
+    const userId = useSelector(state => state.user.userId);
+    const userType = useSelector(state => state.user.userType);
 
     const [formData, setFormData] = useState({
         email: '',
@@ -54,15 +56,12 @@ const Login = ({ hideLoginContainer}) => {// Get the dispatch function
                 const agentsFiltered = agentsResponseJSON.filter(
                     (agent) => agent.email === formData.email
                 );
-    
+                
                 if (agentsFiltered.length === 0) {
                     alert("Please enter valid details");
                 } else {
                     alert(`Logged in Successfully as Agent: ${agentsFiltered[0].name} (${agentsFiltered[0].email})`);
-                    dispatch(loginSuccess({
-                        name: agentsFiltered[0].name,
-                        email: agentsFiltered[0].email,
-                    }));
+                    dispatch(setUserInfo(agentsFiltered[0]._id, 'agent'));
                     navigate('/client');
                 }
             } else {
@@ -70,17 +69,11 @@ const Login = ({ hideLoginContainer}) => {// Get the dispatch function
     
                 if (loggedInUser.is_admin) {
                     alert(`Logged in Successfully as Admin: ${loggedInUser.name} (${loggedInUser.email})`);
-                    dispatch(loginSuccess({
-                        name: loggedInUser.name,
-                        email: loggedInUser.email,
-                    }));
+                    dispatch(setUserInfo(loggedInUser._id, 'admin'));
                     navigate('/admin');
                 } else {
                     alert(`Logged in Successfully as User: ${loggedInUser.name} (${loggedInUser.email})`);
-                    dispatch(loginSuccess({
-                        name: loggedInUser.name,
-                        email: loggedInUser.email,
-                    }));
+                    dispatch(setUserInfo(loggedInUser._id, 'user'));
                     navigate('/user');
                 }
             }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const PostLand = () => {
     const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ const PostLand = () => {
         contactInfo: '',
         images: []
     });
+
+    const userId = useSelector(state => state.user.userId); 
 
     const handleChange = (e) => {
         const { name, value } = e.target;

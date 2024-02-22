@@ -1,22 +1,17 @@
-import { LOGIN_SUCCESS, LOGOUT_SUCCESS } from './actionTypes';
-
 const initialState = {
   loggedIn: false,
-  user: null
+  userId: null,
+  userType: null,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
+    case 'SET_USER_INFO':
       return {
         ...state,
         loggedIn: true,
-        user: action.payload,
-      };
-    case LOGOUT_SUCCESS:
-      return {
-        ...state,
-        user: null,
+        userId: action.payload.userId,
+        userType: action.payload.userType,
       };
     default:
       return state;
