@@ -1,7 +1,34 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { HeartIcon, PhoneIcon } from "@heroicons/react/24/solid";
 
 const HousePopup = ({ house, onClose }) => {
+
+  const userId = useSelector(state => state.user.userId);
+
+  const handleAddToWishlist = async () => {
+    try {
+        const response = await fetch('http://localhost:5000/wishlistHouse', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: userId, // Replace 'userId' with the actual userId
+                houseId: house._id,
+            }),
+        });
+        if (response.ok) {
+            alert('House added to wishlist successfully!');
+        } else {
+            const data = await response.json();
+            alert(data.error || 'Failed to add house to wishlist');
+        }
+    } catch (error) {
+        console.error('Error adding house to wishlist:', error);
+        alert('Failed to add house to wishlist');
+    }
+};
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
@@ -81,23 +108,24 @@ const HousePopup = ({ house, onClose }) => {
       </div>
       
       <div className="p-6 pt-3 flex justify-between">
-                    <button
-                        className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        type="button"
-                        data-ripple-light="true"
-                    >
-                        <HeartIcon className="h-5 w-5 text-white" />
-                        Wishlist
-                    </button>
+        <button
+                    className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    type="button"
+                    onClick={handleAddToWishlist}
+                    data-ripple-light="true"
+                >
+                    <HeartIcon className="h-5 w-5 text-white" />
+                    Wishlist
+                </button>
 
-                    <button
-                        className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        type="button"
-                        data-ripple-light="true"
-                    >
-                        <PhoneIcon className="h-5 w-5 text-white mr-2" />
-                        Contact
-                    </button>
+                <button
+                    className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    type="button"
+                    data-ripple-light="true"
+                >
+                    <PhoneIcon className="h-5 w-5 text-white" />
+                    Contact
+                </button>
                 </div>
     </div>
     </div>

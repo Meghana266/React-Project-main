@@ -5,10 +5,7 @@ import store from './store'; // Import your Redux store
 
 import UserDashboard from './Components/UserDashboard/UserDashboard';
 import ClientDashboard from './Components/ClientDashboard/ClientDashboard';
-<<<<<<< HEAD
-=======
 import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
->>>>>>> 64924388a7b7e62c2b3bdc587e6b5f96b467652e
 import Homepage from './Components/Homepage/Homepage';
 
 const App = () => {
@@ -19,6 +16,7 @@ const App = () => {
           <Route path="/" element={<Homepage />} />
           <Route path="/user" element={<UserDashboard />} />
           <Route path="/client" element={<ClientDashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
       </Router>
     </Provider>

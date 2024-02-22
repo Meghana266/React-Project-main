@@ -1,27 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@material-tailwind/react";
 
 export default function PostedProperties({ houses, lands }) {
 
   // Client-side code (example using fetch API)
-const handleDeleteHouse = async (id) => {
-  try {
-    const response = await fetch(`/deleteHouse/${id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      // Optionally include a request body if needed
-      body: JSON.stringify({ id })
-    });
-    const data = await response.json();
-    console.log(data); // Log the response from the server
-  } catch (error) {
-    console.error('Error:', error);
-  }
-};
-
-
+  const handleDeleteHouse = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/deleteHouse/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+      });
+      const data = await response.json();
+      console.log(data);
+  
+      // Check if the deletion was successful
+      if (response.ok) {
+        // Display success message
+        alert('House deleted successfully');
+      } else {
+        // Display error message if deletion failed
+        alert('Failed to delete house');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
   const handleDeleteLand = async (landId) => {
     try {
       const response = await fetch(`http://localhost:5000/deleteLand/${landId}`, {
@@ -29,16 +36,48 @@ const handleDeleteHouse = async (id) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        // Add any necessary body parameters if required by your backend
       });
-      if (!response.ok) {
-        throw new Error('Failed to delete land');
+  
+      if (response.ok) {
+        // Display success message
+        alert('Land deleted successfully');
+      } else {
+        // Display error message if deletion failed
+        alert('Failed to delete land');
       }
-      // Optionally, you can update the state or fetch updated properties after deletion
     } catch (error) {
       console.error('Error deleting land:', error);
     }
   };
+  
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        // Fetch houses
+        const housesResponse = await fetch(`http://localhost:5000/houses`);
+        if (!housesResponse.ok) {
+          throw new Error('Failed to fetch houses');
+        }
+        const housesData = await housesResponse.json();
+        // Update houses state
+        // setHouses(housesData);
+
+        // Fetch lands
+        const landsResponse = await fetch(`http://localhost:5000/lands`);
+        if (!landsResponse.ok) {
+          throw new Error('Failed to fetch lands');
+        }
+        const landsData = await landsResponse.json();
+        // Update lands state
+        // setLands(landsData);
+      } catch (error) {
+        console.error('Error fetching properties:', error);
+      }
+    };
+
+    // Call fetchProperties function
+    fetchProperties();
+  }, []); 
 
 
   return (
@@ -67,7 +106,7 @@ const handleDeleteHouse = async (id) => {
               {/* Buttons */}
               <div className="flex flex-col justify-between py-4">
                 <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mr-2">Update</button>
-                <button onClick={() => handleDeleteHouse(house.id)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg">Delete</button>
+                <button onClick={() => handleDeleteHouse(house._id)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg">Delete</button>
               </div>
             </div>
           ))}
@@ -96,7 +135,7 @@ const handleDeleteHouse = async (id) => {
               {/* Buttons */}
               <div className="flex flex-col justify-between py-4">
                 <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded-lg mr-2">Update</button>
-                <button onClick={() => handleDeleteLand(land.id)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg">Delete</button>
+                <button onClick={() => handleDeleteLand(land._id)} className="bg-red-500 text-white font-bold py-2 px-4 rounded-lg">Delete</button>
               </div>
             </div>
           ))}
