@@ -36,10 +36,7 @@ export default function AdminDashboard() {
   const [activeComponent, setActiveComponent] = useState(null);
 
   const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
+    { name: 'Dashboard', href: '#', current: true }
   ]
   
   function classNames(...classes) {
@@ -207,6 +204,7 @@ export default function AdminDashboard() {
             <div className="flex space-x-4">
               {navigation.map((item) => (
                 <a
+                  onClick={() => handleComponentChange("ShowStats")}
                   key={item.name}
                   href={item.href}
                   className={classNames(
