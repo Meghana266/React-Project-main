@@ -49,6 +49,7 @@ export default function UserDashboard() {
     const [lands, setLands] = useState([]);
     const [postedHouses, setPostedHouses] = useState([]);
     const [postedLands, setPostedLands] = useState([]);
+    const [wishlistHouses, setWishlistHouses] = useState([]);
     const [totalPostedProperties, setTotalPostedProperties] = useState(0);
     const userId = useSelector(state => state.user.userId);
 
@@ -95,21 +96,64 @@ export default function UserDashboard() {
         };
     
         fetchProperties();
+        const interval1 = setInterval(fetchProperties, 5000);
+
+        return () => clearInterval(interval1);
       }, []);
     
       useEffect(() => {
-        // Filter posted houses
-        const filteredHouses = houses.filter(house => house.userId === userId);
-        setPostedHouses(filteredHouses);
-    
-        // Filter posted lands
-        const filteredLands = lands.filter(land => land.userId === userId);
-        setPostedLands(filteredLands);
-    
-        // Calculate total posted properties
-        const totalProperties = filteredHouses.length + filteredLands.length;
-        setTotalPostedProperties(totalProperties);
+        const fetchPostedProperties = ()=>{
+            // Filter posted houses
+            const filteredHouses = houses.filter(house => house.userId === userId);
+            setPostedHouses(filteredHouses);
+        
+            // Filter posted lands
+            const filteredLands = lands.filter(land => land.userId === userId);
+            setPostedLands(filteredLands);
+        
+            // Calculate total posted properties
+            const totalProperties = filteredHouses.length + filteredLands.length;
+            setTotalPostedProperties(totalProperties);
+        }
+        fetchPostedProperties();
+
+        const interval2 = setInterval(fetchPostedProperties, 5000);
+
+        return () => clearInterval(interval2);
       }, [houses, lands, userId]);
+
+      useEffect(() => {
+        // Fetch wishlist houses for the specific userID
+        const fetchWishlistHouses = async () => {
+            try {
+                const response = await fetch(`http://localhost:5000/wishlistHouses`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch wishlist houses');
+                }
+                const data = await response.json();
+                // Filter wishlist houses based on userID
+                const userWishlistHouses = await data.filter(item => item.userId === userId);
+                // Extract houseIDs from filtered wishlist houses
+                const houseIDs = await userWishlistHouses.map(item => item.houseId);
+                const wishlistHouseDetails =houses.filter(house => houseIDs.includes(house._id));
+                // Update wishlist houses state with the filtered details
+                setWishlistHouses(wishlistHouseDetails);
+            } catch (error) {
+                console.error('Error fetching wishlist houses:', error);
+            }
+        };
+        // Initial fetch
+        fetchWishlistHouses();
+
+        // Fetch wishlist houses every 5 seconds
+        const interval = setInterval(fetchWishlistHouses, 5000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+    
+        fetchWishlistHouses();
+    }, [userId, houses]);
+    
  
     const handleLogout = () => {
         // Dispatch action to update Redux state
@@ -389,7 +433,12 @@ export default function UserDashboard() {
             {activeComponent === "PostHouse" && <PostHouse />}
             {activeComponent === "PostedProperties" && <PostedProperties houses={postedHouses} lands={postedLands} />}
             {activeComponent === "Contacts" && <Contacts />}
-            {activeComponent === "Wishlist" && <Wishlist />}
+            {activeComponent === "Wishlist" && 
+                <Wishlist
+                    wishlistHouses={wishlistHouses}
+                    wishlistLands={lands}
+                />
+            }
             {activeComponent === "Messages" && <Messages />}
             {activeComponent === "ShowArchitects" && <ShowArchitects />}
             {activeComponent === "ShowContractors" && <ShowContractors />}
