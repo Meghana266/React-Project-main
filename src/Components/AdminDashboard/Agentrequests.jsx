@@ -1,55 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes, faUser, faEnvelope,faBriefcase } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
-const clientData = [
-  {
-    name: 'Sam',
-    email: 'Sam@gmail.com',
-    profession: 'Contractor',
-  },
-  {
-    name: 'Dean',
-    email: 'Dean@gmail.com',
-    profession: 'Architect',
-  },
-  {
-    name: 'Jack',
-    email: 'Jack@gmail.com',
-    profession: 'Interior Designer',
-  },
-  {
-    name: 'Bunni',
-    email: 'BUnni@gmail.com',
-    profession: 'Contractor',
-  },
-  {
-    name: 'Saturn',
-    email: 'Saturn@gmail.com',
-    profession: 'Architect',
-  },
-];
-
-const AgentRequests = () => {
+const Agentrequests = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('all');
 
-  const handleAccept = (name) => {
-    console.log(`Accept ${name}`);
+  const [agents, setagents] = useState([]);
+
+  useEffect(() => {
+    // Fetch both agent agents and contact form submissions from the backend
+    fetch('http://localhost:5000/agents') // Replace with your new endpoint
+      .then((response) => response.json())
+      .then((data) => setagents(data))
+      .catch((error) => console.error('Error fetching agents:', error));
+  }, []);
+
+  const handleAccept = async (name) => {
+    const acceptedRequest = agents.find((request) => request.name === name);
+
+    // Check if the request is found and has isVerified set to false
+    if (acceptedRequest && !acceptedRequest.isVerified) {
+      // Update isVerified to true
+      try {
+        await axios.put(`http://localhost:5000/agents/${acceptedRequest._id}`, {
+          isVerified: true,
+        });
+
+        // Update the local state to reflect the change
+      setagents((prevAgents) =>
+        prevAgents.map((agent) =>
+          agent.name === name ? { ...agent, isVerified: true } : agent
+        )
+      );
+        console.log(`Accept ${name}`);
+      } catch (error) {
+        console.error('Error updating agent:', error);
+      }
+    }
   };
 
   const handleDecline = (name) => {
     console.log(`Decline ${name}`);
   };
 
-  const filteredClients = clientData.filter((client) => {
+  const filteredagentss = Array.isArray(agents) ? agents.filter((agents) => {
     return (
-      (client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (agents.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        agents.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (selectedProfession === 'all' ||
-        client.profession.toLowerCase() === selectedProfession.toLowerCase())
+        agents.profession.toLowerCase() === selectedProfession.toLowerCase())
     );
-  });
+  }):[];
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-lg dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -108,10 +111,10 @@ const AgentRequests = () => {
         </div>
       </div>
 
-      {filteredClients.map((client, key) => (
+      {filteredagentss.map((agents, key) => (
         <div
           className={`grid grid-cols-4 sm:grid-cols-4 ${
-            key === filteredClients.length - 1
+            key === filteredagentss.length - 1
               ? ''
               : 'border-b border-stroke dark:border-strokedark'
           }`}
@@ -119,27 +122,27 @@ const AgentRequests = () => {
         >
           <div className="flex items-center p-3 xl:p-5">
           <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="hidden ml-2 text-black dark:text-white sm:block">{client.name}</p>
+            <p className="hidden ml-2 text-black dark:text-white sm:block">{agents.name}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
           <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="text-black ml-2 dark:text-white">{client.email}</p>
+            <p className="text-black ml-2 dark:text-white">{agents.email}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
-            <p className="text-meta-3">{client.profession}</p>
+            <p className="text-meta-3">{agents.profession}</p>
           </div>
 
           <div className="flex items-center justify-end space-x-4 p-3 mr-20 xl:p-5">
             <button
-              onClick={() => handleAccept(client.name)}
+              onClick={() => handleAccept(agents.name)}
               className="text-green-400 hover:underline"
             >
               <FontAwesomeIcon icon={faCheck} />
             </button>
             <button
-              onClick={() => handleDecline(client.name)}
+              onClick={() => handleDecline(agents.name)}
               className="text-red-400 hover:underline"
             >
               <FontAwesomeIcon icon={faTimes} />
@@ -151,4 +154,4 @@ const AgentRequests = () => {
   );
 };
 
-export default AgentRequests;
+export default Agentrequests;
