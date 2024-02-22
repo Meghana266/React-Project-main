@@ -5,6 +5,7 @@ import Users from "./Users";
 import Agentrequests from "./Agentrequests";
 import Houses from './Houses';
 import ChangePassword from "./ChangePassword";
+import Messages from './Messages';
 
 import {
   Card,
@@ -166,7 +167,7 @@ export default function AdminDashboard() {
             </ListItem>
 
             <hr className="my-4 border-blue-gray-50" />
-            <ListItem>
+            <ListItem onClick={() => handleComponentChange("ShowMessages")}>
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5 text-gray-500" />
               </ListItemPrefix>
@@ -294,6 +295,7 @@ export default function AdminDashboard() {
         {activeComponent === "ShowStats" && <Stats />}
         {activeComponent === "Agent" && <Agents />}
         {activeComponent === "User" && <Users />}
+        {activeComponent === "ShowMessages" && <Messages />}
         {activeComponent === "Agentrequests" && <Agentrequests />}
         {activeComponent === "ChangePassword" && <ChangePassword />}  
         </div>
