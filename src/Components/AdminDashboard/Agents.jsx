@@ -1,53 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
-const clientData = [
-  {
-    name: 'Sam',
-    email: 'Sam@gmail.com',
-    profession: 'Contractor',
-  },
-  {
-    name: 'Dean',
-    email: 'Dean@gmail.com',
-    profession: 'Architect',
-  },
-  {
-    name: 'Jack',
-    email: 'Jack@gmail.com',
-    profession: 'Interior Designer',
-  },
-  {
-    name: 'Bunni',
-    email: 'BUnni@gmail.com',
-    profession: 'Contractor',
-  },
-  {
-    name: 'Saturn',
-    email: 'Saturn@gmail.com',
-    profession: 'Architect',
-  },
-];
 
 const Agents = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('all');
+  const [agentData, setAgentData] = useState([]);
 
   const handleView = (name) => {
     console.log(`View profile of ${name}`);
   };
 
+  useEffect(() => {
+    // Fetch data from the backend API when the component mounts
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/agents');
+        const data = await response.json();
+        setAgentData(data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleDelete = (name) => {
     console.log(`Delete ${name} permanently`);
   };
 
-  const filteredClients = clientData.filter((client) => {
+  const filteredAgents = agentData.filter((agents) => {
     return (
-      (client.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        client.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (agents.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        agents.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
       (selectedProfession === 'all' ||
-        client.profession.toLowerCase() === selectedProfession.toLowerCase())
+        agents.profession.toLowerCase() === selectedProfession.toLowerCase())
     );
   });
 
@@ -117,10 +106,10 @@ const Agents = () => {
         </div>
       </div>
 
-      {filteredClients.map((client, key) => (
+      {filteredAgents.map((agents, key) => (
         <div
           className={`grid grid-cols-4 sm:grid-cols-4 ${
-            key === filteredClients.length - 1
+            key === filteredAgents.length - 1
               ? ''
               : 'border-b border-stroke dark:border-strokedark'
           }`}
@@ -128,23 +117,23 @@ const Agents = () => {
         >
           <div className="flex items-center p-3 xl:p-5">
           <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="hidden ml-2 text-black dark:text-white sm:block">{client.name}</p>
+            <p className="hidden ml-2 text-black dark:text-white sm:block">{agents.name}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
           <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className=" ml-2 text-black dark:text-white">{client.email}</p>
+            <p className=" ml-2 text-black dark:text-white">{agents.email}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
-            <p className="text-meta-3">{client.profession}</p>
+            <p className="text-meta-3">{agents.profession}</p>
           </div>
 
           <div className="flex items-center justify-end space-x-4 p-3 mr-20 xl:p-5">
-            <button onClick={() => handleView(client.name)} className="text-blue-400 hover:underline">
+            <button onClick={() => handleView(agents.name)} className="text-blue-400 hover:underline">
               <FontAwesomeIcon icon={faEye} />
             </button>
-            <button onClick={() => handleDelete(client.name)} className="text-red-400 hover:underline">
+            <button onClick={() => handleDelete(agents.name)} className="text-red-400 hover:underline">
               <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
