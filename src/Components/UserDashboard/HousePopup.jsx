@@ -1,6 +1,5 @@
 import React from 'react';
 import { HeartIcon, PhoneIcon } from "@heroicons/react/24/solid";
-import { Carousel } from "@material-tailwind/react";
 
 const HousePopup = ({ house, onClose }) => {
     return (
@@ -10,22 +9,9 @@ const HousePopup = ({ house, onClose }) => {
                     <button className='hover:bg-white' onClick={onClose}>&times;</button>
                 </div>
                 <div className="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-                <Carousel
-                        className="rounded-xl"
-                        autoPlay={false} // Disable auto-play
-                        animation="fade" // Set animation to fade
-                        indicators={false} // Hide indicators
-                        navButtonsAlwaysInvisible={true} // Hide navigation buttons
-                    >
-                        {house.images.map((image, index) => (
-                            <img
-                                key={index}
-                                src={`http://localhost:5000/${image.replace(/\\/g, '/')}`}
-                                alt={``}
-                                className="h-full w-full object-cover"
-                            />
-                        ))}
-                    </Carousel>
+                    {house.images.length > 0 && (
+                        <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
+                    )}
                     <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
                 </div>
       <div class="p-6">

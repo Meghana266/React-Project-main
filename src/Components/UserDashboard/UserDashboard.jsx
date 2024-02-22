@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { RiHome4Line } from 'react-icons/ri';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector } from 'react-redux';
 
 import PostLand from "./PostLand";
 import PostHouse from "./PostHouse";
@@ -14,8 +14,8 @@ import ShowArchitects from "./ShowArchitects";
 import ShowContractors from "./ShowContractors";
 import ShowDesingers from "./ShowDesingers";
 import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Menu, Transition } from '@headlessui/react'
+import { BellIcon } from '@heroicons/react/24/outline'
 import {
   Card,
   Typography,
@@ -36,7 +36,6 @@ import {
   HomeIcon,
   UserIcon,
   ArrowUpIcon,
-  HomeModernIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 
@@ -44,7 +43,15 @@ import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 export default function UserDashboard() {
     const [open, setOpen] = useState(0);
     const [activeComponent, setActiveComponent] = useState(null);
-  
+    const dispatch = useDispatch();
+    
+    const [houses, setHouses] = useState([]);
+    const [lands, setLands] = useState([]);
+    const [postedHouses, setPostedHouses] = useState([]);
+    const [postedLands, setPostedLands] = useState([]);
+    const [totalPostedProperties, setTotalPostedProperties] = useState(0);
+    const userId = useSelector(state => state.user.userId);
+
     const handleOpen = (value) => {
       setOpen(open === value ? 0 : value);
     };
@@ -64,9 +71,54 @@ export default function UserDashboard() {
         return classes.filter(Boolean).join(' ')
       }
     
-
-    const userId = useSelector(state => state.user.userId); 
+      useEffect(() => {
+        const fetchProperties = async () => {
+          try {
+            // Fetch houses
+            const housesResponse = await fetch(`http://localhost:5000/houses`);
+            if (!housesResponse.ok) {
+              throw new Error('Failed to fetch houses');
+            }
+            const housesData = await housesResponse.json();
+            setHouses(housesData);
+    
+            // Fetch lands
+            const landsResponse = await fetch(`http://localhost:5000/lands`);
+            if (!landsResponse.ok) {
+              throw new Error('Failed to fetch lands');
+            }
+            const landsData = await landsResponse.json();
+            setLands(landsData);
+          } catch (error) {
+            console.error('Error fetching properties:', error);
+          }
+        };
+    
+        fetchProperties();
+      }, []);
+    
+      useEffect(() => {
+        // Filter posted houses
+        const filteredHouses = houses.filter(house => house.userId === userId);
+        setPostedHouses(filteredHouses);
+    
+        // Filter posted lands
+        const filteredLands = lands.filter(land => land.userId === userId);
+        setPostedLands(filteredLands);
+    
+        // Calculate total posted properties
+        const totalProperties = filteredHouses.length + filteredLands.length;
+        setTotalPostedProperties(totalProperties);
+      }, [houses, lands, userId]);
  
+    const handleLogout = () => {
+        // Dispatch action to update Redux state
+        dispatch({ type: 'LOGOUT' });
+        // Show alert
+        alert('User logged out successfully!');
+        window.location.href = '/';
+    };
+
     return (
         <div className="relative h-full w-full"  >
         <div className="w-1/4"> 
@@ -200,7 +252,7 @@ export default function UserDashboard() {
             </ListItemPrefix>
             Posted Properties
             <ListItemSuffix>
-                <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip  value={totalPostedProperties} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
             </ListItem>
             <ListItem onClick={() => handleComponentChange("Wishlist")}>
@@ -230,7 +282,7 @@ export default function UserDashboard() {
                 <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
             </ListItem>
-            <ListItem>
+            <ListItem onClick={handleLogout}>
             <ListItemPrefix>
                 <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
@@ -239,7 +291,7 @@ export default function UserDashboard() {
         </List>
         </Card>
         </div>
-        <div className="w-3/4 w-full ml-40"> 
+        <div className="w-3/4 w-full ml-"> 
         <div className="bg-gray-800">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 ">
         <div className="relative flex h-16 items-center justify-between">
@@ -335,7 +387,7 @@ export default function UserDashboard() {
             {activeComponent === "ShowHouses" && <ShowHouses />}
             {activeComponent === "PostLand" && <PostLand />}
             {activeComponent === "PostHouse" && <PostHouse />}
-            {activeComponent === "PostedProperties" && <PostedProperties />}
+            {activeComponent === "PostedProperties" && <PostedProperties houses={postedHouses} lands={postedLands} />}
             {activeComponent === "Contacts" && <Contacts />}
             {activeComponent === "Wishlist" && <Wishlist />}
             {activeComponent === "Messages" && <Messages />}

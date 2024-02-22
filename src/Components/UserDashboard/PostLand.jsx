@@ -32,8 +32,10 @@ const PostLand = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+    
         const formDataToSend = new FormData();
+        formDataToSend.append('userId', formData.userId); // Append userId to formDataToSend
+    
         for (let key in formData) {
             if (key === 'images') {
                 formData[key].forEach(image => {
@@ -43,13 +45,13 @@ const PostLand = () => {
                 formDataToSend.append(key, formData[key]);
             }
         }
-
+    
         try {
             const response = await fetch('http://localhost:5000/lands', {
                 method: 'POST',
                 body: formDataToSend
             });
-
+    
             if (response.ok) {
                 alert('Land Posted Successfully');
             } else {
@@ -58,7 +60,7 @@ const PostLand = () => {
         } catch (error) {
             alert('Error:', error);
         }
-
+    
         setFormData({
             title: '',
             location: '',
@@ -66,9 +68,11 @@ const PostLand = () => {
             area: '',
             description: '',
             contactInfo: '',
-            images: []
+            images: [],
+            userId: '' // Reset userId field
         });
     };
+    
 
     return (
         <div className="p-5">

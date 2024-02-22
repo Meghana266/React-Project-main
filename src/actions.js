@@ -4,3 +4,8 @@ export const setUserInfo = (userId, userType) => {
     payload: { userId, userType },
   };
 };
+
+export const logoutUser = () => ({
+  type: 'LOGOUT',
+});
+
