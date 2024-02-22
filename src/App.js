@@ -5,7 +5,7 @@ import store from './store'; // Import your Redux store
 
 import UserDashboard from './Components/UserDashboard/UserDashboard';
 import ClientDashboard from './Components/ClientDashboard/ClientDashboard';
-import AdminDashboard from './DashComps/AdminDashboard';
+import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 import Homepage from './Components/Homepage/Homepage';
 
 const App = () => {
