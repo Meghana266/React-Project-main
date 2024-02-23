@@ -32,9 +32,9 @@ const PostLand = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        formData.userId = userId;
     
-        const formDataToSend = new FormData();
-        formDataToSend.append('userId', formData.userId); // Append userId to formDataToSend
+        const formDataToSend = new FormData();// Append userId to formDataToSend
     
         for (let key in formData) {
             if (key === 'images') {
@@ -68,8 +68,7 @@ const PostLand = () => {
             area: '',
             description: '',
             contactInfo: '',
-            images: [],
-            userId: '' // Reset userId field
+            images: [] // Reset userId field
         });
     };
     

@@ -45,7 +45,7 @@ const ContactUs = ({ hideContactusContainer }) => {
 
         if (isValid) {
             try {
-                const response = await fetch('http://localhost:5000/contact-requests', {
+                const response = await fetch('http://localhost:5000/contacts', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
