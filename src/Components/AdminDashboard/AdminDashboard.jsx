@@ -3,9 +3,10 @@ import Stats from "./Stats";
 import Agents from "./Agents";
 import Users from "./Users";
 import Agentrequests from "./Agentrequests";
-import Houses from './Houses';
 import ChangePassword from "./ChangePassword";
 import Messages from './Messages';
+import ShowHouses from "./ShowHouses";
+import ShowLands from './ShowLands';
 
 import {
   Card,
@@ -56,7 +57,7 @@ export default function AdminDashboard() {
       })
       .catch((error) => console.error("Error fetching contacts:", error));
   }, []);
-  
+
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
@@ -303,8 +304,9 @@ export default function AdminDashboard() {
       </div>
     </div>
      <div className="bg-gray-190 w-3/4 p-4 mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-     {activeComponent === "ShowHouses" && <Houses />}
-        {/* {activeComponent === "ShowLands" && <ShowLands />} */}
+     
+        {activeComponent === "ShowLands" && <ShowLands />} 
+        {activeComponent === "ShowHouses" && <ShowHouses />}
         {activeComponent === "ShowStats" && <Stats />}
         {activeComponent === "Agent" && <Agents />}
         {activeComponent === "User" && <Users />}
