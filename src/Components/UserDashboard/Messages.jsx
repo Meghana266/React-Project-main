@@ -60,8 +60,8 @@ export default function Messages({ onMessagesChange }) {
                             </p>
                         </div>
                         <div>
-                            <button onClick={() => handleAction(message._id, 'accepted')}>Accept</button>
-                            <button onClick={() => handleAction(message._id, 'declined')}>Decline</button>
+                            <button class="order-3 mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-green-600 transition duration-300" onClick={() => handleAction(message._id, 'accepted')}>Accept</button>
+                            <button class="order-3 mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-green-600 transition duration-300" onClick={() => handleAction(message._id, 'declined')}>Decline</button>
                         </div>
                     </div>
                 </article>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux'; // Import Provider from react-redux
+import { Provider, useSelector } from 'react-redux'; // Import Provider and useSelector from react-redux
 import store from './store'; // Import your Redux store
 
 import UserDashboard from './Components/UserDashboard/UserDashboard';
@@ -9,14 +9,23 @@ import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 import Homepage from './Components/Homepage/Homepage';
 
 const App = () => {
+  // Use useSelector to access the loggedIn state from Redux store
+  const isLoggedIn = useSelector(state => state.user.loggedIn);
+
   return (
-    <Provider store={store}> {/* Wrap your entire application with Provider */}
+    <Provider store={store}>
       <Router>
         <Routes>
+          {/* Homepage route always rendered */}
           <Route path="/" element={<Homepage />} />
-          <Route path="/user" element={<UserDashboard />} />
-          <Route path="/client" element={<ClientDashboard />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          {/* Dashboard routes conditionally rendered based on isLoggedIn */}
+          {isLoggedIn && (
+            <>
+              <Route path="/user" element={<UserDashboard />} />
+              <Route path="/client" element={<ClientDashboard />} />
+              <Route path="/admin" element={<AdminDashboard />} />
+            </>
+          )}
         </Routes>
       </Router>
     </Provider>

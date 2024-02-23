@@ -1,7 +1,13 @@
-import React from 'react';
+import React,{useState}  from 'react';
+import { useSelector } from 'react-redux';
 import { HeartIcon, PhoneIcon } from "@heroicons/react/24/solid";
+import ContactForm from './ContactForm';
 
 const AgentPopup = ({ agent, onClose }) => {
+    
+  const [showContactForm, setShowContactForm] = useState(false);
+
+  const userId = useSelector(state => state.user.userId);
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
@@ -56,12 +62,21 @@ const AgentPopup = ({ agent, onClose }) => {
                     <button
                         className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="button"
+                        onClick={() => setShowContactForm(true)}
                         data-ripple-light="true"
                     >
                         <PhoneIcon className="h-5 w-5 text-white mr-2" />
                         Contact
                     </button>
                 </div>
+                {showContactForm && (
+                <ContactForm
+                    senderId={userId} // Pass the sender ID to the ContactForm component
+                    recipientType="Agent" // Or "Architect" based on your logic
+                    recipientId={agent._id} // Pass the userId of the house owner
+                    onClose={() => setShowContactForm(false)}
+                />
+                )}
             </div>
         </div>
     );

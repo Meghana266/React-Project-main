@@ -183,7 +183,7 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
                 <div className="mt-10 grid max-w-md grid-cols-1 gap-6 px-2 sm:max-w-lg sm:px-20 md:max-w-screen-xl md:grid-cols-2 md:px-10 lg:grid-cols-3 lg:gap-8">
                     {/* Map over displayedLands to render each land */}
                     {displayedLands.map((land) => (
-                        <article key={land._id} className="mb-4 overflow-hidden rounded-xl border text-gray-700 shadow-md duration-500 ease-in-out hover:shadow-xl">
+                        <article key={land._id} onClick={() => handleLandClick(land)} className="mb-4 overflow-hidden rounded-xl border text-gray-700 shadow-md duration-500 ease-in-out hover:shadow-xl">
                             <div>
                                 {/* Render the first image from the images array */}
                                 {land.images.length > 0 && (

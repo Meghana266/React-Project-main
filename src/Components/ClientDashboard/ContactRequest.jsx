@@ -1,27 +1,69 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from 'react-redux';
+
 export default function ContactRequest(){
-    return(
-        <div class="m-5">
-        <div class="group mx-2 mt-10 grid max-w-screen-md grid-cols-12 space-x-8 overflow-hidden rounded-lg border py-8 text-gray-700 shadow transition hover:shadow-lg sm:mx-auto">
-          <a href="#" class="order-2 col-span-1 mt-4 -ml-14 text-left text-gray-600 hover:text-gray-700 sm:-order-1 sm:ml-4">
-            <div class="group relative h-16 w-16 overflow-hidden rounded-lg">
-              <img src="/images/EC25KRDBo-K3w8GexNHSE.png" alt="" class="h-full w-full object-cover text-gray-700" />
-            </div>
-          </a>
-          <div class="col-span-11 flex flex-col pr-8 text-left sm:pl-4">
-            <h3 class="text-sm text-gray-600">Invision</h3>
-            <a href="#" class="mb-3 overflow-hidden pr-7 text-lg font-semibold sm:text-xl"> Sr. Frontend Engineer </a>
-            <p class="overflow-hidden pr-7 text-sm">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna .</p>
+  const [messages, setMessages] = useState([]);
+  const userId = useSelector(state => state.user.userId);
+
+  useEffect(() => {
+      const fetchMessages = async () => {
+          try {
+              const response = await fetch(`http://localhost:5000/contactRequests`);
+              if (!response.ok) {
+                  throw new Error('Failed to fetch contact requests');
+              }
+              const data = await response.json();
+              // Filter messages where the recipient id matches the current user's id
+              const filteredMessages = data.filter(message => message.recipient === userId && message.status === 'request');
+              setMessages(filteredMessages);
+          } catch (error) {
+              console.error('Error fetching contact requests:', error);
+          }
+      };
+
+      fetchMessages();
+      const interval=setInterval(fetchMessages,5000);
       
-            <div class="mt-5 flex flex-col space-y-3 text-sm font-medium text-gray-500 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-2">
-              <div class="">Experience:<span class="ml-2 mr-3 rounded-full bg-green-100 px-2 py-0.5 text-green-900"> 2 Years </span></div>
-              <div class="">Salary:<span class="ml-2 mr-3 rounded-full bg-blue-100 px-2 py-0.5 text-blue-900">180-250k</span></div>
-            </div>
-            
-            <button class="order-3 mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-green-600 transition duration-300">Accept</button>
-          </div>
-        </div>
-      </div>
-      
-    )
+      return () => clearInterval(interval);
+  }, [userId]); // Include userId as a dependency
+
+  const handleAction = async (id, status) => {
+      try {
+          const response = await fetch(`http://localhost:5000/contactRequest/${id}`, {
+              method: 'PUT',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ status })
+          });
+          if (!response.ok) {
+              throw new Error(`Failed to ${status} contact request`);
+          }
+      } catch (error) {
+          console.error(`Error ${status} contact request:`, error);
+      }
+  };
+  return (
+    <div className="bg-gray-100 px-1 py-1">
+        {messages.map((message, index) => (
+            <article key={index} className="mx-auto my-10 flex max-w-md flex-col rounded-2xl bg-white px-4 shadow md:max-w-5xl md:flex-row md:items-center">
+                <div className="py-4 sm:py-8">
+                    <a href="#" className="mb-6 block text-2xl font-medium text-gray-700">{message.title}</a>
+                    <p className="mb-6 text-gray-500">{message.message}</p>
+                    <div className="flex items-center">
+                        <img className="h-10 w-10 rounded-full object-cover" src="/images/ddHJYlQqOzyOKm4CSCY8o.png" alt="Simon Lewis" />
+                        <p className="ml-4 w-56">
+                            <strong className="block font-medium text-gray-700">{message.sender}</strong>
+                            <span className="text-sm text-gray-400">{message.createdAt}</span>
+                        </p>
+                    </div>
+                    <div>
+                        <button class="order-3 mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-green-600 transition duration-300" onClick={() => handleAction(message._id, 'accepted')}>Accept</button>
+                        <button class="order-3 mt-4 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-green-600 transition duration-300" onClick={() => handleAction(message._id, 'declined')}>Decline</button>
+                    </div>
+                </div>
+            </article>
+        ))}
+    </div>
+);
 }

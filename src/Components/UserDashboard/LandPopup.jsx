@@ -1,8 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useSelector } from 'react-redux';
 import { HeartIcon, PhoneIcon } from "@heroicons/react/24/solid";
+import ContactForm from './ContactForm';
 
 const LandPopup = ({ land, onClose }) => {
+
+  const [showContactForm, setShowContactForm] = useState(false);
+
   const userId = useSelector(state => state.user.userId);
 
   const handleAddToWishlist = async () => {
@@ -83,12 +87,22 @@ const LandPopup = ({ land, onClose }) => {
           <button
             className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             type="button"
+            onClick={() => setShowContactForm(true)}
             data-ripple-light="true"
           >
             <PhoneIcon className="h-5 w-5 text-white" />
             Contact
           </button>
         </div>
+        {/* Contact form modal */}
+        {showContactForm && (
+          <ContactForm
+            senderId={userId} // Pass the sender ID to the ContactForm component
+            recipientType="User" // Or "Architect" based on your logic
+            recipientId={land.userId} // Pass the userId of the house owner
+            onClose={() => setShowContactForm(false)}
+          />
+        )}
       </div>
     </div>
   );

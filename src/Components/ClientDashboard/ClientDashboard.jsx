@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
+import {useDispatch, useSelector } from 'react-redux';
 import Profile from "./Profile";
 import ContactRequest from "./ContactRequest";
 import ContactApproved from "./ContactApproved";
@@ -12,31 +13,25 @@ import {
   ListItem,
   ListItemPrefix,
   ListItemSuffix,
-  Chip,
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
+  Chip
 } from "@material-tailwind/react";
 import {
-  PresentationChartBarIcon,
-  ShoppingBagIcon,
   UserCircleIcon,
   Cog6ToothIcon,
-  InboxIcon,
   PowerIcon,
   KeyIcon,
   BellAlertIcon,
-  PhoneArrowDownLeftIcon,
+  PhoneArrowDownLeftIcon
 } from "@heroicons/react/24/solid";
-import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment } from 'react'
-import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Menu, Transition } from '@headlessui/react'
+import { BellIcon } from '@heroicons/react/24/outline'
 
  
 export default function ClientDashboard() {
     const [open, setOpen] = useState(0);
     const [activeComponent, setActiveComponent] = useState(null);
+    const userId = useSelector(state => state.user.userId);
   
     const handleOpen = (value) => {
       setOpen(open === value ? 0 : value);
@@ -52,7 +47,6 @@ export default function ClientDashboard() {
       
  
     return (
-      
         
       <div className="flex h-full w-full " >
 

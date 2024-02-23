@@ -1,49 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const Profile = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(prevState => !prevState);
+  const userId = useSelector(state => state.user.userId);
+  const [agents, setAgents] = useState([]);
+  const [agentData, setAgentData] = useState(null);
 
-  const schema = {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    mobile: { type: String, required: true },
-    password: { type: String, required: true },
-    profession: { type: String, enum: ['Architect', 'Contractor', 'Interior Designer'], required: true },
-    experience: { type: Number },
-    education: { type: String },
-    certifications: { type: String },
-    projectsCompleted: { type: String },
-    skills: { type: String },
-    specializations: { type: String },
-    contactAddress: { type: String },
-    location: { type: String },
-    languages: { type: String },
-    linkedinUrl: { type: String },
-    twitterUrl: { type: String },
-  };
+  useEffect(() => {
+    const fetchAllAgentsData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/agents`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch agents data');
+        }
+        const data = await response.json();
+        setAgents(data);
+      } catch (error) {
+        console.error('Error fetching agents data:', error);
+      }
+    };
 
-  const sampleData = {
-    name: 'Jane Doe',
-    email: 'jane@example.com',
-    mobile: '+11 998001001',
-    password: '********',
-    profession: 'Architect',
-    experience: 5,
-    education: 'Masters Degree in Architecture',
-    certifications: 'LEED Certified',
-    projectsCompleted: '25+',
-    skills: 'AutoCAD, SketchUp, Revit',
-    specializations: 'Residential Architecture, Sustainable Design',
-    contactAddress: '123 Main St, Cityville',
-    location: 'Cityville, USA',
-    languages: 'English, Spanish',
-    linkedinUrl: 'https://www.linkedin.com/in/janedoe',
-    twitterUrl: 'https://twitter.com/janedoe',
-  };
+    // Initial fetch
+    fetchAllAgentsData();
+
+    // Fetch agents data every 5000 milliseconds
+    const interval = setInterval(fetchAllAgentsData, 50);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []); // Empty dependency array to run only once on component mount
+
+  useEffect(() => {
+    // Filter the data to include only the agent with the specific userId
+    const filteredAgent = agents.find(agent => agent._id === userId);
+        
+    // Set the filtered agent data to agentData state
+    setAgentData(filteredAgent);
+  }, [agents, userId]); // Include agents and userId in the dependency array to run when they change
+
+  if (!agentData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="bg-white-100 " >
+      <h1 className=" mt:10 mb:5 text-center font-sans text-4xl">Profile</h1>
       <div className="container mx-auto my-5 p-5">
         <div className="md:flex no-wrap md:-mx-2 ">
           {/* Left Side */}
@@ -53,8 +54,8 @@ const Profile = () => {
             <div className="image overflow-hidden">
               <img className="h-auto w-full mx-auto" src="https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg" alt="Jane Doe" />
             </div>
-            <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{sampleData.name}</h1>
-            <h3 className="text-gray-600 font-lg text-semibold leading-6">{sampleData.profession}</h3>
+            <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{agentData.name}</h1>
+            <h3 className="text-gray-600 font-lg text-semibold leading-6">{agentData.profession}</h3>
             <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non deserunt</p>
             <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
               <li className="flex items-center py-3">
@@ -117,93 +118,19 @@ const Profile = () => {
           <div className="w-full md:w-9/12 mx-2 h-64">
             {/* Profile tab */}
             {/* About Section */}
-            <div className="bg-white p-3 shadow-sm rounded-sm relative">
-              <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                <span className="text-green-500">
-                  <svg className="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </span>
-                <span className="tracking-wide">About</span>
-                <button className="absolute top-0 right-0 bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600" >Update</button>
-              </div>
-              <div className="text-gray-700">
-                <div className="grid md:grid-cols-1 text-sm">
-                  {/* Rendering fields dynamically from the schema */}
-                  {Object.entries(schema).map(([fieldName, fieldDetails]) => (
-                    fieldName !== 'password' && (
-                      <div key={fieldName} className="grid grid-cols-2">
-                        <div className="px-4 py-2 font-semibold">{fieldName}</div>
-                        <div className="px-4 py-2">{sampleData[fieldName]}</div>
-                      </div>
-                    )
-                  ))}
-                </div>
+                        <div className="text-gray-700">
+              <div className="grid md:grid-cols-1 text-sm">
+                {/* Rendering fields dynamically from the agentData */}
+                {Object.entries(agentData).map(([fieldName, fieldValue]) => (
+                  fieldName !== 'password' && (
+                    <div key={fieldName} className="grid grid-cols-2">
+                      <div className="px-4 py-2 font-semibold">{fieldName}</div>
+                      <div className="px-4 py-2">{fieldValue}</div>
+                    </div>
+                  )
+                ))}
               </div>
             </div>
-
-            {/* End of about section */}
-            <div className="my-4"></div>
-            {/* Experience and education */}
-            {/* <div className="bg-white p-3 shadow-sm rounded-sm">
-              <div className="grid grid-cols-2">
-                <div>
-                  <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                    <span clas="text-green-500">
-                      <svg className="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </span>
-                    <span className="tracking-wide">Experience</span>
-                  </div>
-                  <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Owner at Her Company Inc.</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
-                    <span clas="text-green-500">
-                      <svg className="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path fill="#fff" d="M12 14l9-5-9-5-9 5 9 5z" />
-                        <path fill="#fff"
-                          d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
-                      </svg>
-                    </span>
-                    <span className="tracking-wide">Education</span>
-                  </div>
-                  <ul className="list-inside space-y-2">
-                    <li>
-                      <div className="text-teal-600">Masters Degree in Oxford</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                    <li>
-                      <div className="text-teal-600">Bachelors Degreen in LPU</div>
-                      <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                    </li>
-                  </ul>
-                </div>
-              </div> 
-              {/* End of Experience and education grid */}
             {/* End of profile tab */}
           </div>
         </div>

@@ -50,6 +50,7 @@ export default function UserDashboard() {
     const [postedHouses, setPostedHouses] = useState([]);
     const [postedLands, setPostedLands] = useState([]);
     const [wishlistHouses, setWishlistHouses] = useState([]);
+    const [wishlistLands, setWishlistLands] = useState([]);
     const [totalPostedProperties, setTotalPostedProperties] = useState(0);
     const userId = useSelector(state => state.user.userId);
 
@@ -116,35 +117,48 @@ export default function UserDashboard() {
 
       useEffect(() => {
         // Fetch wishlist houses for the specific userID
-        const fetchWishlistHouses = async () => {
+        const fetchWishlistData = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/wishlistHouses`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch wishlist houses');
+                const responseHouses = await fetch(`http://localhost:5000/wishlistHouses`);
+                const responseLands = await fetch(`http://localhost:5000/wishlistLands`);
+                
+                if (!responseHouses.ok || !responseLands.ok) {
+                    throw new Error('Failed to fetch wishlist data');
                 }
-                const data = await response.json();
-                // Filter wishlist houses based on userID
-                const userWishlistHouses = await data.filter(item => item.userId === userId);
-                // Extract houseIDs from filtered wishlist houses
-                const houseIDs = await userWishlistHouses.map(item => item.houseId);
-                const wishlistHouseDetails =houses.filter(house => houseIDs.includes(house._id));
-                // Update wishlist houses state with the filtered details
+    
+                const dataHouses = await responseHouses.json();
+                const dataLands = await responseLands.json();
+    
+                // Filter wishlist houses and lands based on userID
+                const userWishlistHouses = dataHouses.filter(item => item.userId === userId);
+                const userWishlistLands = dataLands.filter(item => item.userId === userId);
+    
+                // Extract houseIDs and landIDs from filtered wishlist items
+                const houseIDs = userWishlistHouses.map(item => item.houseId);
+                const landIDs = userWishlistLands.map(item => item.landId);
+    
+                // Filter houses and lands based on extracted IDs
+                const wishlistHouseDetails = houses.filter(house => houseIDs.includes(house._id));
+                const wishlistLandDetails = lands.filter(land => landIDs.includes(land._id));
+    
+                // Update wishlist houses and lands states with the filtered details
                 setWishlistHouses(wishlistHouseDetails);
+                setWishlistLands(wishlistLandDetails);
             } catch (error) {
-                console.error('Error fetching wishlist houses:', error);
+                console.error('Error fetching wishlist data:', error);
             }
         };
-        // Initial fetch
-        fetchWishlistHouses();
-
-        // Fetch wishlist houses every 5 seconds
-        const interval = setInterval(fetchWishlistHouses, 5000);
-
-    // Cleanup interval on component unmount
-    return () => clearInterval(interval);
     
-        fetchWishlistHouses();
-    }, [userId, houses]);
+        // Initial fetch
+        fetchWishlistData();
+    
+        // Fetch wishlist data every 5 seconds
+        const interval = setInterval(fetchWishlistData, 5000);
+    
+        // Cleanup interval on component unmount
+        return () => clearInterval(interval);
+    }, [userId, houses, lands]);
+    
     
  
     const handleLogout = () => {
@@ -170,7 +184,7 @@ export default function UserDashboard() {
     };
 
     return (
-        <div className="relative h-full w-full"  >
+        <div className="flex h-full w-full"  >
         <div className="w-1/4"> 
         <Card className="fixed inset-0 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5  ">
         <div className="mb-2 p-4 flex">
@@ -429,7 +443,7 @@ export default function UserDashboard() {
             {activeComponent === "Wishlist" && 
                 <Wishlist
                     wishlistHouses={wishlistHouses}
-                    wishlistLands={lands}
+                    wishlistLands={wishlistLands}
                 />
             }
             {activeComponent === "Messages" && <Messages />}

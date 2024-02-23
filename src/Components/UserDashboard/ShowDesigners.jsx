@@ -67,9 +67,6 @@ const ShowDesigners = ({ handleSignupClick, handlePropertyClick }) => {
                     {/* Display designers */}
                     {designers.map((designer, index) => (
                         <Card key={index} className="w-96" onClick={() => handleCardClick(designer)}>
-                            <CardHeader floated={false} className="h-80">
-                                <img src={designer.image} alt="profile-picture" />
-                            </CardHeader>
                             <CardBody className="text-center">
                                 <Typography variant="h4" color="blue-gray" className="mb-2">
                                     {designer.name}
