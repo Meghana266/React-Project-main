@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import LandPopup from './LandPopup';
+import HousePopup from './HousePopup';
 
-const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
-    const [lands, setLands] = useState([]);
-    const [displayedLands, setDisplayedLands] = useState([]);
+const ShowHouses = ({ handleSignupClick, handlePropertyClick }) => {
+    const [houses, setHouses] = useState([]);
+    const [displayedHouses, setDisplayedHouses] = useState([]);
 
     useEffect(() => {
-        // Fetch data from the backend and set it to lands state
-        const fetchLandsData = async () => {
+        // Fetch data from the backend and set it to houses state
+        const fetchHousesData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/lands');
+                const response = await fetch('http://localhost:5000/houses');
                 if (!response.ok) {
-                    throw new Error('Failed to fetch lands data');
+                    throw new Error('Failed to fetch houses data');
                 }
                 const data = await response.json();
-                setLands(data); // Set the fetched data to the lands state
-                setDisplayedLands(data); // Initially set displayedLands to all lands
+                setHouses(data); // Set the fetched data to the houses state
+                setDisplayedHouses(data); // Initially set displayedHouses to all houses
             } catch (error) {
                 console.error('Error:', error);
             }
         };
 
-        fetchLandsData();
+        fetchHousesData();
     }, []);
 
     const [searchCriteria, setSearchCriteria] = useState({
@@ -29,8 +29,9 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
         priceMin: '',
         priceMax: '',
         location: '',
-        areaMin: '',
-        areaMax: ''
+        yearBuilt: '',
+        squareFootage: '',
+        bedrooms: ''
     });
 
     const handleInputChange = (e) => {
@@ -45,48 +46,59 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
         const queryParams = new URLSearchParams(searchCriteria);
     
         try {
-            let filteredLands;
+            let filteredHouses;
     
             if (queryParams.toString() !== '') {
-                // Filter lands based on search criteria
-                filteredLands = lands.filter(land => {
-                    // Check if land price is within the specified range
+                // Filter houses based on search criteria
+                filteredHouses = houses.filter(house => {
+                    // Check if house price is within the specified range
                     const priceInRange = 
-                        (!searchCriteria.priceMin || parseInt(land.price) >= parseInt(searchCriteria.priceMin)) &&
-                        (!searchCriteria.priceMax || parseInt(land.price) <= parseInt(searchCriteria.priceMax));
+                        (!searchCriteria.priceMin || parseInt(house.price) >= parseInt(searchCriteria.priceMin)) &&
+                        (!searchCriteria.priceMax || parseInt(house.price) <= parseInt(searchCriteria.priceMax));
     
-                    // Check if land location matches the specified location
+                    // Check if house location matches the specified location
                     const locationMatch = 
-                        !searchCriteria.location || land.location.toLowerCase().includes(searchCriteria.location.toLowerCase());
+                        !searchCriteria.location || house.location.toLowerCase().includes(searchCriteria.location.toLowerCase());
     
-                    // Check if land area is within the specified range
-                    const areaInRange =
-                        (!searchCriteria.areaMin || parseInt(land.area) >= parseInt(searchCriteria.areaMin)) &&
-                        (!searchCriteria.areaMax || parseInt(land.area) <= parseInt(searchCriteria.areaMax));
+                    // Check if house year built is within the specified range
+                    const yearBuiltInRange =
+                        (!searchCriteria.yearBuiltMin || parseInt(house.yearBuilt) >= parseInt(searchCriteria.yearBuiltMin)) &&
+                        (!searchCriteria.yearBuiltMax || parseInt(house.yearBuilt) <= parseInt(searchCriteria.yearBuiltMax));
+    
+                    // Check if house square footage is within the specified range
+                    const squareFootageInRange =
+                        (!searchCriteria.squareFootageMin || parseInt(house.squareFootage) >= parseInt(searchCriteria.squareFootageMin)) &&
+                        (!searchCriteria.squareFootageMax || parseInt(house.squareFootage) <= parseInt(searchCriteria.squareFootageMax));
+    
+                    // Check if house has the specified number of bedrooms
+                    const bedroomsMatch =
+                        !searchCriteria.bedrooms || parseInt(house.bedrooms) === parseInt(searchCriteria.bedrooms);
     
                     // Combine all filtering conditions
-                    return priceInRange && locationMatch && areaInRange;
+                    return priceInRange && locationMatch && yearBuiltInRange && squareFootageInRange && bedroomsMatch;
                 });
             } else {
-                // If no search criteria are provided, display all lands
-                filteredLands = lands;
+                // If no search criteria are provided, display all houses
+                filteredHouses = houses;
             }
         
-            setDisplayedLands(filteredLands); // Set the filtered or all lands to the displayedLands state
+            setDisplayedHouses(filteredHouses); // Set the filtered or all houses to the displayedHouses state
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    const [selectedLand, setSelectedLand] = useState(null); // State to track selected house
+    const [selectedHouse, setSelectedHouse] = useState(null); // State to track selected house
 
-    const handleLandClick = (land) => {
-        setSelectedLand(land); // Set the selected house when clicked
+    const handleHouseClick = (house) => {
+        setSelectedHouse(house); // Set the selected house when clicked
     };
 
     const closePopup = () => {
-        setSelectedLand(null); // Close the popup
+        setSelectedHouse(null); // Close the popup
     };
+    
+    
 
     return (
         <div>
@@ -143,25 +155,38 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
                                         className="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                                     />
                                 </div>
-                                {/* Area range */}
+                                {/* Year built */}
                                 <div className="flex flex-col">
-                                    <label htmlFor="areaMin" className="text-sm font-medium text-stone-600">Min Area</label>
+                                    <label htmlFor="yearBuilt" className="text-sm font-medium text-stone-600">Year Built</label>
                                     <input
                                         type="number"
-                                        id="areaMin"
-                                        name="areaMin"
-                                        value={searchCriteria.areaMin}
+                                        id="yearBuilt"
+                                        name="yearBuilt"
+                                        value={searchCriteria.yearBuilt}
                                         onChange={handleInputChange}
                                         className="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                                     />
                                 </div>
+                                {/* Square footage */}
                                 <div className="flex flex-col">
-                                    <label htmlFor="areaMax" className="text-sm font-medium text-stone-600">Max Area</label>
+                                    <label htmlFor="squareFootage" className="text-sm font-medium text-stone-600">Square Footage</label>
                                     <input
                                         type="number"
-                                        id="areaMax"
-                                        name="areaMax"
-                                        value={searchCriteria.areaMax}
+                                        id="squareFootage"
+                                        name="squareFootage"
+                                        value={searchCriteria.squareFootage}
+                                        onChange={handleInputChange}
+                                        className="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                                    />
+                                </div>
+                                {/* Bedrooms */}
+                                <div className="flex flex-col">
+                                    <label htmlFor="bedrooms" className="text-sm font-medium text-stone-600">Bedrooms</label>
+                                    <input
+                                        type="number"
+                                        id="bedrooms"
+                                        name="bedrooms"
+                                        value={searchCriteria.bedrooms}
                                         onChange={handleInputChange}
                                         className="mt-2 block w-full rounded-md border border-gray-100 bg-gray-100 px-2 py-2 shadow-sm outline-none focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
                                     />
@@ -177,37 +202,42 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
                 </div>
             </div>
 
-
             <section className="flex flex-col items-center bg-white">
                 <h1 className="mt-10 text-4xl font-bold text-gray-800">New Listings</h1>
                 <div className="mt-10 grid max-w-md grid-cols-1 gap-6 px-2 sm:max-w-lg sm:px-20 md:max-w-screen-xl md:grid-cols-2 md:px-10 lg:grid-cols-3 lg:gap-8">
-                    {/* Map over displayedLands to render each land */}
-                    {displayedLands.map((land) => (
-                        <article key={land._id} className="mb-4 overflow-hidden rounded-xl border text-gray-700 shadow-md duration-500 ease-in-out hover:shadow-xl">
+                    {/* Map over displayedHouses to render each house */}
+                    {displayedHouses.map((house) => (
+                        <article key={house._id} onClick={() => handleHouseClick(house)} className="mb-4 overflow-hidden rounded-xl border text-gray-700 shadow-md duration-500 ease-in-out hover:shadow-xl">
                             <div>
                                 {/* Render the first image from the images array */}
-                                {land.images.length > 0 && (
-                                    <img src={`http://localhost:5000/${land.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
+                                {house.images.length > 0 && (
+                                     <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
                                 )}
                             </div>
 
                             <div className="p-4">
                                 <div className="pb-6">
-                                    <a href="#" className="text-lg hover:text-green-600 font-medium duration-500 ease-in-out">{land.title}</a>
-                                    {/* Display additional fields */}
-                                    <p className="text-gray-600">{land.location}</p>
+                                    <a href="" className="text-lg hover:text-green-600 font-medium duration-500 ease-in-out">{house.title}</a>
                                 </div>
 
                                 <ul className="box-border flex list-none items-center border-t border-b border-solid border-gray-200 px-0 py-6">
                                     <li className="mr-4 flex items-center text-left">
-                                        <span className="mr-2 text-2xl text-green-600">{land.area} acres</span>
+                                        <span className="mr-2 text-2xl text-green-600">1200sqf</span>
+                                    </li>
+
+                                    <li className="mr-4 flex items-center text-left">
+                                        <span className="mr-2 text-2xl text-green-600">4 Beds</span>
+                                    </li>
+
+                                    <li className="flex items-center text-left">
+                                        <span className="mr-2 text-2xl text-green-600">4 Baths</span>
                                     </li>
                                 </ul>
 
                                 <ul className="m-0 flex list-none items-center justify-between px-0 pt-6 pb-0">
                                     <li className="text-left">
                                         <span className="text-sm text-gray-400">Price</span>
-                                        <p className="m-0 text-base font-medium">{land.price}</p>
+                                        <p className="m-0 text-base font-medium">{house.price}</p>
                                     </li>
                                 </ul>
                             </div>
@@ -215,9 +245,10 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
                     ))}
                 </div>
             </section>
-            {selectedLand && (
-                <LandPopup
-                    land={selectedLand}
+            {/* Popup Component */}
+            {selectedHouse && (
+                <HousePopup
+                    house={selectedHouse}
                     onClose={closePopup}
                 />
             )}
@@ -225,4 +256,4 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
     );
 };
 
-export default ShowLands;
+export default ShowHouses;
