@@ -63,10 +63,11 @@ const ShowContractors = ({ handleSignupClick, handlePropertyClick }) => {
     return (
         <div>
             <div className="m-10 w-screen max-w-screen-md">
-                <div className="flex flex-col">
+                <div className="flex flex-row">
                     {/* Display contractors */}
                     {contractors.map((contractor, index) => (
                         <Card key={index} className="w-96" onClick={() => handleCardClick(contractor)}>
+
                             <CardBody className="text-center">
                                 <Typography variant="h4" color="blue-gray" className="mb-2">
                                     {contractor.name}

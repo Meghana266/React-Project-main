@@ -66,7 +66,7 @@ const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {// State
     return (
         <div>
             <div className="m-10 w-screen max-w-screen-md">
-                <div className="flex flex-col">
+                <div className="flex flex-row">
                     {/* Display architects if architects array is not empty */}
                     {architects.length > 0 && architects.map((architect) => (
                         <Card key={architect._id} className="w-96" onClick={() => handleAgentClick(architect)}>

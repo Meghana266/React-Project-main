@@ -433,7 +433,7 @@ export default function UserDashboard() {
         </div>
       </div>
     </div>
-    <div className="w-3/4 p-4 " style={{marginLeft: '20rem'}}>
+    <div className="w-3/4 p-4 " style={{marginLeft: '10rem'}}>
             {activeComponent === "ShowLands" && <ShowLands/>}
             {activeComponent === "ShowHouses" && <ShowHouses />}
             {activeComponent === "PostLand" && <PostLand />}

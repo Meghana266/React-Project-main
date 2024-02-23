@@ -63,7 +63,7 @@ const ShowDesigners = ({ handleSignupClick, handlePropertyClick }) => {
     return (
         <div>
             <div className="m-10 w-screen max-w-screen-md">
-                <div className="flex flex-col">
+                <div className="flex flex-row">
                     {/* Display designers */}
                     {designers.map((designer, index) => (
                         <Card key={index} className="w-96" onClick={() => handleCardClick(designer)}>
