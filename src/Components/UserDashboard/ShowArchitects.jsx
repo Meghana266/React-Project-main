@@ -14,10 +14,17 @@ import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons/faPhoneAlt';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons/faMapMarkerAlt'; // New: Location icon
 
-const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {
-    const [showPopup, setShowPopup] = useState(false); // State to manage popup visibility
+const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {// State to manage popup visibility
     const [architects, setArchitects] = useState([]);
-    const [popupAgent, setPopupAgent] = useState(null);
+    const [selectedAgent, setSelectedAgent] = useState(null);
+
+    const handleAgentClick = (house) => {
+        setSelectedAgent(house); // Set the selected house when clicked
+    };
+
+    const closePopup = () => {
+        setSelectedAgent(null); // Close the popup
+    };
 
     useEffect(() => {
         const fetchArchitectsData = async () => {
@@ -37,11 +44,7 @@ const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {
 
         fetchArchitectsData();
     }, []);
-
-    const handleCardClick = (architect) => {
-        setShowPopup(true); // Show the popup when clicking on the card
-        setPopupAgent(architect); // Set the clicked architect data for the popup
-    };
+    
 
     const renderRatingStars = (rating) => {
         const filledStars = Math.floor(rating);
@@ -64,12 +67,10 @@ const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {
         <div>
             <div className="m-10 w-screen max-w-screen-md">
                 <div className="flex flex-col">
-                    {/* Display architects */}
-                    {architects.map((architect, index) => (
-                        <Card key={index} className="w-96" onClick={() => handleCardClick(architect)}>
-                            <CardHeader floated={false} className="h-80">
-                                <img src={architect.image} alt="profile-picture" />
-                            </CardHeader>
+                    {/* Display architects if architects array is not empty */}
+                    {architects.length > 0 && architects.map((architect) => (
+                        <Card key={architect._id} className="w-96" onClick={() => handleAgentClick(architect)}>
+                        
                             <CardBody className="text-center">
                                 <Typography variant="h4" color="blue-gray" className="mb-2">
                                     {architect.name}
@@ -106,9 +107,10 @@ const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {
                     ))}
                 </div>
             </div>
-            {showPopup && <AgentPopup agent={popupAgent} onClose={() => setShowPopup(false)} />}
+            {selectedAgent && (<AgentPopup agent={selectedAgent} onClose={closePopup} />)}
         </div>
     );
+    
 };
 
 export default ShowArchitects;

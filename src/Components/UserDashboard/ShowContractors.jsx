@@ -67,9 +67,6 @@ const ShowContractors = ({ handleSignupClick, handlePropertyClick }) => {
                     {/* Display contractors */}
                     {contractors.map((contractor, index) => (
                         <Card key={index} className="w-96" onClick={() => handleCardClick(contractor)}>
-                            <CardHeader floated={false} className="h-80">
-                                <img src={contractor.image} alt="profile-picture" />
-                            </CardHeader>
                             <CardBody className="text-center">
                                 <Typography variant="h4" color="blue-gray" className="mb-2">
                                     {contractor.name}

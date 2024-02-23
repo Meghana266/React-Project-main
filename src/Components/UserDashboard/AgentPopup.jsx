@@ -1,6 +1,5 @@
 import React from 'react';
 import { HeartIcon, PhoneIcon } from "@heroicons/react/24/solid";
-import { Carousel } from "@material-tailwind/react";
 
 const AgentPopup = ({ agent, onClose }) => {
     return (
@@ -8,26 +7,6 @@ const AgentPopup = ({ agent, onClose }) => {
             <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
                 <div className="flex justify-end">
                     <button className='hover:bg-white' onClick={onClose}>&times;</button>
-                </div>
-                <div className="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-                    {/* Carousel for agent images */}
-                    <Carousel
-                        className="rounded-xl"
-                        autoPlay={false} // Disable auto-play
-                        animation="fade" // Set animation to fade
-                        indicators={false} // Hide indicators
-                        navButtonsAlwaysInvisible={true} // Hide navigation buttons
-                    >
-                        {agent.projects.map((project, index) => (
-                            <img
-                                key={index}
-                                src={project.image}
-                                alt={project.title}
-                                className="h-full w-full object-cover"
-                            />
-                        ))}
-                    </Carousel>
-                    <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
                 </div>
                 <div className="p-6">
                     <div className="mb-3 flex items-center justify-between">
@@ -73,14 +52,6 @@ const AgentPopup = ({ agent, onClose }) => {
                     </p>
                 </div>
                 <div className="p-6 pt-3 flex justify-between">
-                    <button
-                        className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        type="button"
-                        data-ripple-light="true"
-                    >
-                        <HeartIcon className="h-5 w-5 text-white" />
-                        Wishlist
-                    </button>
 
                     <button
                         className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
