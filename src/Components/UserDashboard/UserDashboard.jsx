@@ -60,17 +60,6 @@ export default function UserDashboard() {
     const handleComponentChange = (componentName) => {
       setActiveComponent(componentName);
     };
-
-    const navigation = [
-        { name: 'Dashboard', href: '#', current: true },
-        { name: 'Team', href: '#', current: false },
-        { name: 'Projects', href: '#', current: false },
-        { name: 'Calendar', href: '#', current: false },
-      ]
-      
-      function classNames(...classes) {
-        return classes.filter(Boolean).join(' ')
-      }
     
       useEffect(() => {
         const fetchProperties = async () => {
@@ -101,6 +90,9 @@ export default function UserDashboard() {
         return () => clearInterval(interval1);
       }, []);
     
+      function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+      } 
       useEffect(() => {
         const fetchPostedProperties = ()=>{
             // Filter posted houses
@@ -354,19 +346,7 @@ export default function UserDashboard() {
         <div className="relative flex h-16 items-center justify-between">
           <div className="hidden sm:flex items-center mx-auto">
             <div className="flex space-x-4">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={classNames(
-                    item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'rounded-md px-3 py-2 text-sm font-medium'
-                  )}
-                  aria-current={item.current ? 'page' : undefined}
-                >
-                  {item.name}
-                </a>
-              ))}
+              
             </div>
           </div>
           <div className="flex items-center">
