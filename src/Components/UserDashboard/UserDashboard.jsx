@@ -12,7 +12,7 @@ import Wishlist from "./Wishlist";
 import Messages from "./Messages";
 import ShowArchitects from "./ShowArchitects";
 import ShowContractors from "./ShowContractors";
-import ShowDesingers from "./ShowDesingers";
+import ShowDesigners from "./ShowDesigners";
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { BellIcon } from '@heroicons/react/24/outline'
@@ -163,12 +163,25 @@ export default function UserDashboard() {
         window.location.href = '/';
     };
 
+    const [contactRequestsCount, setContactRequestsCount] = useState(0);
+
+    // Function to handle contact requests change
+    const handleContactRequestsChange = (count) => {
+        setContactRequestsCount(count);
+    };
+
+    const [messagesCount, setMessagesCount] = useState(0);
+
+    // Function to handle contact requests change
+    const onMessagesChange = (count) => {
+        setMessagesCount(count);
+    };
+
     return (
         <div className="relative h-full w-full"  >
         <div className="w-1/4"> 
         <Card className="fixed inset-0 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5  ">
         <div className="mb-2 p-4 flex">
-            <h1>Hello ${userId}</h1>
             <RiHome4Line style={{ marginRight: '8px' , fontSize: '24px'}} />
             <Typography variant="h5" color="blue-gray">
             Dream Home
@@ -244,7 +257,7 @@ export default function UserDashboard() {
                     </ListItemPrefix>
                     Contractors
                 </ListItem>
-                <ListItem onClick={()=>handleComponentChange("ShowDesingers")}>
+                <ListItem onClick={()=>handleComponentChange("ShowDesigners")}>
                     <ListItemPrefix>
                     <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                     </ListItemPrefix>
@@ -305,7 +318,7 @@ export default function UserDashboard() {
             </ListItemPrefix>
             WishList
             <ListItemSuffix>
-                <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip value={wishlistHouses.length} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
             </ListItem>
             <ListItem onClick={() => handleComponentChange("Contacts")}>
@@ -314,7 +327,7 @@ export default function UserDashboard() {
             </ListItemPrefix>
             Contacts
             <ListItemSuffix>
-                <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip value={contactRequestsCount} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
             </ListItem>
             <ListItem onClick={() => handleComponentChange("Messages")}>
@@ -323,7 +336,7 @@ export default function UserDashboard() {
             </ListItemPrefix>
             Messages
             <ListItemSuffix>
-                <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip value={messagesCount} size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
             </ListItem>
             <ListItem onClick={handleLogout}>
@@ -432,7 +445,7 @@ export default function UserDashboard() {
             {activeComponent === "PostLand" && <PostLand />}
             {activeComponent === "PostHouse" && <PostHouse />}
             {activeComponent === "PostedProperties" && <PostedProperties houses={postedHouses} lands={postedLands} />}
-            {activeComponent === "Contacts" && <Contacts />}
+            {activeComponent === "Contacts" && <Contacts onContactRequestsChange={handleContactRequestsChange}/>}
             {activeComponent === "Wishlist" && 
                 <Wishlist
                     wishlistHouses={wishlistHouses}
@@ -442,7 +455,7 @@ export default function UserDashboard() {
             {activeComponent === "Messages" && <Messages />}
             {activeComponent === "ShowArchitects" && <ShowArchitects />}
             {activeComponent === "ShowContractors" && <ShowContractors />}
-            {activeComponent === "ShowDesingers" && <ShowDesingers />}
+            {activeComponent === "ShowDesigners" && <ShowDesigners />}
         </div>
       </div>
         

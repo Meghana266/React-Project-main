@@ -14,33 +14,33 @@ import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons/faPhoneAlt';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons/faEnvelope';
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons/faMapMarkerAlt'; // New: Location icon
 
-const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {
+const ShowDesigners = ({ handleSignupClick, handlePropertyClick }) => {
     const [showPopup, setShowPopup] = useState(false); // State to manage popup visibility
-    const [architects, setArchitects] = useState([]);
-    const [popupAgent, setPopupAgent] = useState(null);
+    const [designers, setDesigners] = useState([]);
+    const [popupDesigner, setPopupDesigner] = useState(null); // State to store selected designer for the popup
 
     useEffect(() => {
-        const fetchArchitectsData = async () => {
+        const fetchDesignersData = async () => {
             try {
                 const response = await fetch('http://localhost:5000/agents');
                 if (!response.ok) {
                     throw new Error('Failed to fetch agents data');
                 }
                 const data = await response.json();
-                // Filter agents where the profession is "Architect"
-                const architectAgents = data.filter(agent => agent.profession === 'Architect');
-                setArchitects(architectAgents); // Set the fetched data to the architects state
+                // Filter agents where the profession is "Designer"
+                const designerAgents = data.filter(agent => agent.profession === 'Interior Designer');
+                setDesigners(designerAgents); // Set the fetched data to the designers state
             } catch (error) {
                 console.error('Error:', error);
             }
         };
 
-        fetchArchitectsData();
+        fetchDesignersData();
     }, []);
 
-    const handleCardClick = (architect) => {
+    const handleCardClick = (designer) => {
         setShowPopup(true); // Show the popup when clicking on the card
-        setPopupAgent(architect); // Set the clicked architect data for the popup
+        setPopupDesigner(designer); // Set the clicked designer data for the popup
     };
 
     const renderRatingStars = (rating) => {
@@ -64,40 +64,40 @@ const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {
         <div>
             <div className="m-10 w-screen max-w-screen-md">
                 <div className="flex flex-col">
-                    {/* Display architects */}
-                    {architects.map((architect, index) => (
-                        <Card key={index} className="w-96" onClick={() => handleCardClick(architect)}>
+                    {/* Display designers */}
+                    {designers.map((designer, index) => (
+                        <Card key={index} className="w-96" onClick={() => handleCardClick(designer)}>
                             <CardHeader floated={false} className="h-80">
-                                <img src={architect.image} alt="profile-picture" />
+                                <img src={designer.image} alt="profile-picture" />
                             </CardHeader>
                             <CardBody className="text-center">
                                 <Typography variant="h4" color="blue-gray" className="mb-2">
-                                    {architect.name}
+                                    {designer.name}
                                 </Typography>
                                 <div className="flex items-center justify-center mb-2"> {/* New: Flex container for location */}
                                     <Typography color="blue-gray" className="font-medium" textGradient>
-                                        Architect |
+                                        Designer |
                                     </Typography>
                                     <Typography color="blue-gray" className="font-medium ml-1" textGradient>
                                         <FontAwesomeIcon icon={faMapMarkerAlt} className="text-gray-600 mr-1" /> {/* New: Location icon */}
-                                        {architect.location} {/* New: Place name */}
+                                        {designer.location} {/* New: Place name */}
                                     </Typography>
                                 </div>
                             </CardBody>
                             <CardFooter className="flex justify-center gap-7 pt-2"> {/* Updated: justify-end to align icons to the right */}
                                 {/* Star rating */}
                                 <div className="flex items-center">
-                                    {renderRatingStars(architect.rating)} {/* Example rating */}
+                                    {renderRatingStars(designer.rating)} {/* Example rating */}
                                 </div>
                                 {/* Phone icon */}
                                 <Tooltip content="Call">
-                                    <Typography as="a" href={`tel:${architect.contact}`} variant="lead" color="blue" textGradient>
+                                    <Typography as="a" href={`tel:${designer.contact}`} variant="lead" color="blue" textGradient>
                                         <FontAwesomeIcon icon={faPhoneAlt} flip="horizontal" /> {/* Updated: flip="horizontal" to open towards right */}
                                     </Typography>
                                 </Tooltip>
                                 {/* Email icon */}
                                 <Tooltip content="Email">
-                                    <Typography as="a" href={`mailto:${architect.email}`} variant="lead" color="blue" textGradient>
+                                    <Typography as="a" href={`mailto:${designer.email}`} variant="lead" color="blue" textGradient>
                                         <FontAwesomeIcon icon={faEnvelope} />
                                     </Typography>
                                 </Tooltip>
@@ -106,9 +106,9 @@ const ShowArchitects = ({ handleSignupClick, handlePropertyClick }) => {
                     ))}
                 </div>
             </div>
-            {showPopup && <AgentPopup agent={popupAgent} onClose={() => setShowPopup(false)} />}
+            {showPopup && <AgentPopup agent={popupDesigner} onClose={() => setShowPopup(false)} />}
         </div>
     );
 };
 
-export default ShowArchitects;
+export default ShowDesigners;

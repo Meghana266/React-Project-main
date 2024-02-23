@@ -2,7 +2,7 @@ import React from 'react';
 import { HeartIcon, PhoneIcon } from "@heroicons/react/24/solid";
 import { Carousel } from "@material-tailwind/react";
 
-const ArchitectPopup = ({ architect, onClose }) => {
+const AgentPopup = ({ agent, onClose }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
@@ -10,7 +10,7 @@ const ArchitectPopup = ({ architect, onClose }) => {
                     <button className='hover:bg-white' onClick={onClose}>&times;</button>
                 </div>
                 <div className="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-                    {/* Carousel for architect images */}
+                    {/* Carousel for agent images */}
                     <Carousel
                         className="rounded-xl"
                         autoPlay={false} // Disable auto-play
@@ -18,7 +18,7 @@ const ArchitectPopup = ({ architect, onClose }) => {
                         indicators={false} // Hide indicators
                         navButtonsAlwaysInvisible={true} // Hide navigation buttons
                     >
-                        {architect.projects.map((project, index) => (
+                        {agent.projects.map((project, index) => (
                             <img
                                 key={index}
                                 src={project.image}
@@ -29,47 +29,47 @@ const ArchitectPopup = ({ architect, onClose }) => {
                     </Carousel>
                     <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
                 </div>
-                <div class="p-6">
-                    <div class="mb-3 flex items-center justify-between">
-                        <h5 class="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
-                            {architect.name}
+                <div className="p-6">
+                    <div className="mb-3 flex items-center justify-between">
+                        <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
+                            {agent.name}
                         </h5>
-                        <p class="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
+                        <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
                                 aria-hidden="true"
-                                class="-mt-0.5 h-5 w-5 text-yellow-700"
+                                className="-mt-0.5 h-5 w-5 text-yellow-700"
                             >
                                 <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                                    clip-rule="evenodd"
+                                    clipRule="evenodd"
                                 ></path>
                             </svg>
-                            {architect.rating} Rating
+                            {agent.rating} Rating
                         </p>
                     </div>
-                    <div class="group mt-8 inline-flex flex-wrap items-center gap-3">
-                        <span class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
-                            Location: {architect.location}
+                    <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
+                        <span className="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
+                            Location: {agent.location}
                         </span>
-                        <span class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
-                            Contact: {architect.contact}
+                        <span className="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
+                            Contact: {agent.contact}
                         </span>
-                        <span class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
-                            Email: {architect.email}
+                        <span className="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
+                            Email: {agent.email}
                         </span>
-                        <span class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
-                            Profession: {architect.profession}
+                        <span className="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
+                            Profession: {agent.profession}
                         </span>
-                        <span class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
-                            Experience: {architect.experience}
+                        <span className="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
+                            Experience: {agent.experience}
                         </span>
                     </div>
-                    <p class="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
-                        {/* Architect description */}
+                    <p className="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
+                        {/* Agent description */}
                     </p>
                 </div>
                 <div className="p-6 pt-3 flex justify-between">
@@ -96,4 +96,4 @@ const ArchitectPopup = ({ architect, onClose }) => {
     );
 };
 
-export default ArchitectPopup;
+export default AgentPopup;

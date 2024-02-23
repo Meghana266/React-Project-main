@@ -49,25 +49,39 @@ const Homepage = () => {
     const [filteredProperties, setFilteredProperties] = useState(properties); // State to hold filtered properties
 
     useEffect(() => {
-        // Fetch properties from the API
-        fetch('http://localhost:5000/properties')
-            .then(response => response.json())
-            .then(data => {
-                setProperties(data); // Set fetched properties to state
-                setFilteredProperties(data);
-                console.log(filteredProperties)// Set filtered properties initially to all properties
-            })
-            .catch(error => {
+        const fetchProperties = async () => {
+            try {
+                // Fetch data from both endpoints concurrently
+                const [housesResponse, landsResponse] = await Promise.all([
+                    fetch('http://localhost:5000/houses').then(response => response.json()),
+                    fetch('http://localhost:5000/lands').then(response => response.json())
+                ]);
+    
+                // Merge the results into a single list of properties
+                const mergedProperties = [...housesResponse, ...landsResponse];
+    
+                // Set fetched properties to state
+                setProperties(mergedProperties);
+    
+                // Set filtered properties initially to all properties
+                setFilteredProperties(mergedProperties);
+    
+                console.log(filteredProperties);
+            } catch (error) {
                 console.error('Error fetching properties:', error);
-            });
+            }
+        };
+    
+        fetchProperties();
     }, []);
+    
 
     const [agents, setAgents] = useState([]);
     const [filteredAgents, setFilteredAgents] = useState(agents);
 
     useEffect(() => {
         // Fetch agents from the API
-        fetch('http://localhost:5000/agentsDetails')
+        fetch('http://localhost:5000/agents')
             .then(response => response.json())
             .then(data => {
                 setAgents(data);

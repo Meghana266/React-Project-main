@@ -17,14 +17,9 @@ const AgentDetail = ({ agent, hideAgentContainer, handleSignupClick }) => {
                 <section className="text-gray-600 body-font overflow-hidden">
                     <div className="container px-10 py-10 mx-auto">
                         <div className="mx-auto flex flex-wrap">
-                            <img
-                                alt="agent"
-                                className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-                                src={agent.image}
-                            />
                             <div className="lg:w-1/2 lg:px-4 lg:py-2 w-full mt-6 lg:mt-0">
                                 <h2 className="text-sm title-font text-gray-500 tracking-widest">
-                                    {agent.designation}
+                                    {agent.profession}
                                 </h2>
                                 <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
                                     {agent.name}
@@ -73,7 +68,7 @@ const AgentDetail = ({ agent, hideAgentContainer, handleSignupClick }) => {
                                                 <h3>Contact:</h3>
                                             </td>
                                             <td>
-                                                <p>: {agent.contact.phone}</p>
+                                                <p>: {agent.mobile}</p>
                                             </td>
                                         </tr>
                                         <tr>
@@ -81,31 +76,49 @@ const AgentDetail = ({ agent, hideAgentContainer, handleSignupClick }) => {
                                                 <h3>Email:</h3>
                                             </td>
                                             <td>
-                                                <p>: {agent.contact.email}</p>
+                                                <p>: {agent.email}</p>
                                             </td>
                                         </tr>
+                                        {/* Add more fields below */}
+                                        <tr>
+                                            <td>
+                                                <h3>Education:</h3>
+                                            </td>
+                                            <td>
+                                                <p>: {agent.education}</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <h3>Certifications:</h3>
+                                            </td>
+                                            <td>
+                                                <p>: {agent.certifications}</p>
+                                            </td>
+                                        </tr>
+                                        {/* Add more fields as needed */}
                                     </tbody>
                                 </table>
 
                                 <br></br>
                                 <ul>
                                     <li>
-                                        <h2>Specialties:</h2>
-                                        <p>{agent.specialties.join(', ')}</p>
+                                        <h2>Specializations:</h2>
+                                        <p>{agent.specializations}</p>
                                     </li>
                                 </ul>
                                 <br></br>
                                 <ul>
                                     <li>
                                         <h2>Languages:</h2>
-                                        <p>{agent.languages.join(', ')}</p>
+                                        <p>{agent.languages}</p>
                                     </li>
                                 </ul>
                                 <br></br>
                                 <ul>
                                     <li>
                                         <h2>Description:</h2>
-                                        <p>{agent.description.join(' ')}</p>
+                                        <p>{agent.description}</p>
                                     </li>
                                 </ul>
                                 <br></br>

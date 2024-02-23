@@ -32,7 +32,7 @@ const Users = () => {
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-lg dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-#6748B dark:text-white p-2 rounded-md">
+      <h4 className="mb-6 text-xl font-semibold text-#6748B p-2 rounded-md">
         Users
       </h4>
 
@@ -46,7 +46,7 @@ const Users = () => {
             placeholder="Search by name or email"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="border rounded px-2 py-1 focus:outline-none focus:ring focus:border-blue-300 dark:bg-meta-4 dark:border-strokedark dark:text-white"
+            className="border rounded px-2 py-1 focus:outline-none focus:ring focus:border-blue-300 dark:bg-meta-4 dark:border-strokedark "
           />
         </div>
       </div>
@@ -79,18 +79,18 @@ const Users = () => {
           key={key}
         >
           <div className="flex items-center p-3 xl:p-5">
-            <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="hidden ml-2 text-gray-160 dark:text-white sm:block">{users.name}</p>
+            <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 " />
+            <p className="hidden ml-2 text-gray-160  sm:block">{users.name}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
-            <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="hidden ml-2 text-gray-160 dark:text-white sm:block">{users.email}</p>
+            <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 " />
+            <p className="hidden ml-2 text-gray-160 sm:block">{users.email}</p>
           </div>
 
           <div className="flex items-center space-x-7 p-3 xl:p-5">
-              <FontAwesomeIcon icon={faPhone} className="h-4 w-4 text-green-400 dark:text-white" />
-              <p className="hidden ml-4 text-gray-160 dark:text-white sm:block">{users.mobile}</p>
+              <FontAwesomeIcon icon={faPhone} className="h-4 w-4 text-green-400" />
+              <p className="hidden ml-4 text-gray-160 sm:block">{users.mobile}</p>
         </div>
         </div>
       ))}

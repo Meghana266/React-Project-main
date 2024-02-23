@@ -10,34 +10,47 @@ const Agentrequests = () => {
   const [agents, setagents] = useState([]);
 
   useEffect(() => {
-    // Fetch both agent agents and contact form submissions from the backend
-    fetch('http://localhost:5000/agents') // Replace with your new endpoint
-      .then((response) => response.json())
-      .then((data) => setagents(data))
-      .catch((error) => console.error('Error fetching agents:', error));
+    fetchAgentRequests();
+    const interval1 = setInterval(fetchAgentRequests, 5000);
+
+    return () => clearInterval(interval1);
   }, []);
 
-  const handleAccept = async (name) => {
-    const acceptedRequest = agents.find((request) => request.name === name);
+  useEffect(()=>{
+    const filteredagents = Array.isArray(agents)? agents.filter(
+      (agent) =>
+        !agent.is_verified &&
+        (agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          agent.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (selectedProfession === 'all' ||
+          agent.profession.toLowerCase() === selectedProfession.toLowerCase())
+    )
+  : [];
+  })
+  
+  const fetchAgentRequests = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/agents');
+      setagents(response.data.filter(agent => !agent.is_verified));
+    } catch (error) {
+      console.error('Error fetching agents:', error);
+    }
+  };
 
-    // Check if the request is found and has isVerified set to false
-    if (acceptedRequest && !acceptedRequest.isVerified) {
-      // Update isVerified to true
-      try {
-        await axios.put(`http://localhost:5000/agents/${acceptedRequest._id}`, {
-          isVerified: true,
-        });
-
-        // Update the local state to reflect the change
-      setagents((prevAgents) =>
-        prevAgents.map((agent) =>
-          agent.name === name ? { ...agent, isVerified: true } : agent
-        )
-      );
-        console.log(`Accept ${name}`);
-      } catch (error) {
-        console.error('Error updating agent:', error);
+  const handleAccept = async (id) => {
+    try {
+      const agentToUpdate = agents.find((agent) => agent._id === id);
+      if (agentToUpdate) {
+        const updatedAgent = { ...agentToUpdate, is_verified: true };
+        await axios.put(`http://localhost:5000/agents/${agentToUpdate._id}`, updatedAgent);
+        fetchAgentRequests(); // Refresh the list of agents after the update
+        if (updatedAgent.is_verified) {
+          window.alert(`Agent ${updatedAgent.name} has been verified.`);
+        }
       }
+
+    } catch (error) {
+      console.error('Error updating agent:', error);
     }
   };
 
@@ -56,7 +69,7 @@ const Agentrequests = () => {
 
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-lg dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">Agent Requests</h4>
+      <h4 className="mb-6 text-xl font-semibold text-black ">Agent Requests</h4>
 
       <div className="flex items-center space-x-4 mb-4">
         <div className="flex space-x-4">
@@ -121,13 +134,13 @@ const Agentrequests = () => {
           key={key}
         >
           <div className="flex items-center p-3 xl:p-5">
-          <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="hidden ml-2 text-black dark:text-white sm:block">{agents.name}</p>
+          <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 " />
+            <p className="hidden ml-2 text-black  sm:block">{agents.name}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
-          <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 dark:text-white" />
-            <p className="text-black ml-2 dark:text-white">{agents.email}</p>
+          <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 " />
+            <p className="text-black ml-2 ">{agents.email}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
@@ -136,7 +149,7 @@ const Agentrequests = () => {
 
           <div className="flex items-center justify-end space-x-4 p-3 mr-20 xl:p-5">
             <button
-              onClick={() => handleAccept(agents.name)}
+              onClick={() => handleAccept(agents._id)}
               className="text-green-400 hover:underline"
             >
               <FontAwesomeIcon icon={faCheck} />
