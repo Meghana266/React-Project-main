@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import LandPopup from './LandPopup';
 
 const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
     const [lands, setLands] = useState([]);
@@ -75,6 +76,16 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
         } catch (error) {
             console.error('Error:', error);
         }
+    };
+
+    const [selectedLand, setSelectedLand] = useState(null); // State to track selected house
+
+    const handleLandClick = (land) => {
+        setSelectedLand(land); // Set the selected house when clicked
+    };
+
+    const closePopup = () => {
+        setSelectedLand(null); // Close the popup
     };
 
     return (
@@ -204,7 +215,12 @@ const ShowLands = ({ handleSignupClick, handlePropertyClick }) => {
                     ))}
                 </div>
             </section>
-
+            {selectedLand && (
+                <LandPopup
+                    land={selectedLand}
+                    onClose={closePopup}
+                />
+            )}
         </div>
     );
 };
