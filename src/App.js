@@ -4,7 +4,7 @@ import { Provider, useSelector } from 'react-redux';
 import store from './store'; 
 
 import UserDashboard from './Components/UserDashboard/UserDashboard';
-//import ClientDashboard from './Components/ClientDashboard/ClientDashboard';
+import ClientDashboard from './Components/ClientDashboard/ClientDashboard';
 import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 import Homepage from './Components/Homepage/Homepage';
 import PaymentForm from './DashComps/PaymentForm';
@@ -23,7 +23,7 @@ const App = () => {
           {isLoggedIn && (
             <>
               <Route path="/user" element={<UserDashboard />} />
-              {/* <Route path="/client" element={<ClientDashboard />} /> */}
+              <Route path="/client" element={<ClientDashboard />} />
               <Route path="/admin" element={<AdminDashboard />} />
             </>
           )}
