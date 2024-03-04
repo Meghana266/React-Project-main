@@ -1,43 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { HeartIcon, PhoneIcon } from "@heroicons/react/24/solid";
+import React, { useState } from 'react';
+import { PhoneIcon } from "@heroicons/react/24/solid";
 import ContactForm from './ContactForm';
+import {useSelector } from 'react-redux';
 
 const AgentPopUp = ({ agent, onClose }) => {
   const [showContactForm, setShowContactForm] = useState(false);
-  const [agents, setAgents] = useState([]);
-
-  // Fetching Agents every 10 seconds
-  useEffect(() => {
-    const fetchAgents = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/agents`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch users");
-        }
-        const AgentData = await response.json();
-        setAgents(AgentData);
-      } catch (error) {
-        console.error("Error fetching agents:", error);
-      }
-    };
-
-    fetchAgents();
-    const interval = setInterval(fetchAgents, 100);
-
-    return () => clearInterval(interval);
-  }, []); // No dependencies, fetchUsers should only run once
-
   const userId = useSelector(state => state.user.userId);
-
-  // Filter agents based on agent id
-  const filteredAgents = agents.filter(a => a.id === agent.id);
-
-  if (filteredAgents.length === 0) {
+  if (!agent) {
     return <div>No agent found with the provided id</div>;
   }
-
-  const filteredAgent = filteredAgents[0];
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -48,49 +19,29 @@ const AgentPopUp = ({ agent, onClose }) => {
         <div className="p-6">
           <div className="mb-3 flex items-center justify-between">
             <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-900 antialiased">
-              {filteredAgent.name}
+              {agent.name}
             </h5>
             <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-900 antialiased">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                aria-hidden="true"
-                className="-mt-0.5 h-5 w-5 text-yellow-700"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              {filteredAgent.rating} Rating
+              {agent.rating} Rating
             </p>
           </div>
-          <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-              Contact: {filteredAgent.mobile}
-            </span>
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-              Email: {filteredAgent.email}
-            </span>
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-              Profession: {filteredAgent.profession}
-            </span>
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-              Experience: {filteredAgent.experience}
-            </span>
-            {/* Display additional details for an admin */}
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-              Education: {filteredAgent.education}
-            </span>
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-              Certifications: {filteredAgent.certifications}
-            </span>
-            <span className="cursor-pointer rounded-full border border-blue-500/5 bg-blue-500/5 p-3 text-blue-500 transition-colors hover:border-blue-500/10 hover:bg-blue-500/10 hover:!opacity-100 group-hover:opacity-70">
-              Projects Completed: {filteredAgent.projectsCompleted}
-            </span>
-            {/* Add more details as needed */}
+          <div className="group mt-8">
+            <div className="mb-4">
+              <p className="font-medium">Contact:</p>
+              <p>{agent.mobile}</p>
+            </div>
+            <div className="mb-4">
+              <p className="font-medium">Email:</p>
+              <p>{agent.email}</p>
+            </div>
+            <div className="mb-4">
+              <p className="font-medium">Profession:</p>
+              <p>{agent.profession}</p>
+            </div>
+            <div className="mb-4">
+              <p className="font-medium">Experience:</p>
+              <p>{agent.experience}</p>
+            </div>
           </div>
           <p className="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
             {/* Agent description */}
@@ -109,9 +60,9 @@ const AgentPopUp = ({ agent, onClose }) => {
         </div>
         {showContactForm && (
           <ContactForm
-            senderId={userId} // Pass the sender ID to the ContactForm component
-            recipientType="Admin" // Or "Architect" based on your logic
-            recipientId={agent} // Pass the userId of the house owner
+            senderId={userId}
+            recipientType="Agent"
+            recipientId={agent._id}
             onClose={() => setShowContactForm(false)}
           />
         )}

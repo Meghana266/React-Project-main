@@ -7,12 +7,9 @@ const Agents = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('all');
   const [agentData, setAgentData] = useState([]);
-  const [showAgentPopUp, setShowAgentPopUp] = useState(false);
-
-
+  const [selectedAgent, setSelectedAgent] = useState(null);
 
   useEffect(() => {
-    // Fetch data from the backend API when the component mounts
     const fetchData = async () => {
       try {
         const response = await fetch('http://localhost:5000/agents');
@@ -38,8 +35,7 @@ const Agents = () => {
         agents.profession.toLowerCase() === selectedProfession.toLowerCase())
     );
   });
-  
-  
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-lg dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black ">Agents</h4>
@@ -116,12 +112,12 @@ const Agents = () => {
           key={key}
         >
           <div className="flex items-center p-3 xl:p-5">
-          <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 " />
+            <FontAwesomeIcon icon={faUser} className="h-4 w-4 text-green-400 " />
             <p className="hidden ml-2 text-black  sm:block">{agents.name}</p>
           </div>
 
           <div className="flex items-center justify-center p-3 xl:p-5">
-          <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 e" />
+            <FontAwesomeIcon icon={faEnvelope} className="h-4 w-4 text-green-400 e" />
             <p className=" ml-2 text-black ">{agents.email}</p>
           </div>
 
@@ -130,14 +126,14 @@ const Agents = () => {
           </div>
 
           <div className="flex items-center justify-end space-x-4 p-3 mr-20 xl:p-5">
-            <button onClick={() => setShowAgentPopUp(true)} className="text-blue-400 hover:underline">
+            <button onClick={() => setSelectedAgent(agents)} className="text-blue-400 hover:underline">
               <FontAwesomeIcon icon={faEye} />
             </button>
-            {showAgentPopUp && (
-                <AgentPopUp
-                agent={agents._id}
-                onClose={() => setShowAgentPopUp(false)}
-                />
+            {selectedAgent && selectedAgent._id === agents._id && (
+              <AgentPopUp
+                agent={selectedAgent}
+                onClose={() => setSelectedAgent(null)}
+              />
             )}
             <button onClick={() => handleDelete(agents.name)} className="text-red-400 hover:underline">
               <FontAwesomeIcon icon={faTrash} />
