@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrash, faUser, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-
+import AgentPopUp from './AgentPopUp';
 
 const Agents = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProfession, setSelectedProfession] = useState('all');
   const [agentData, setAgentData] = useState([]);
+  const [showAgentPopUp, setShowAgentPopUp] = useState(false);
 
-  const handleView = (name) => {
-    console.log(`View profile of ${name}`);
-  };
+
 
   useEffect(() => {
     // Fetch data from the backend API when the component mounts
@@ -39,7 +38,8 @@ const Agents = () => {
         agents.profession.toLowerCase() === selectedProfession.toLowerCase())
     );
   });
-
+  
+  
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-lg dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black ">Agents</h4>
@@ -130,9 +130,15 @@ const Agents = () => {
           </div>
 
           <div className="flex items-center justify-end space-x-4 p-3 mr-20 xl:p-5">
-            <button onClick={() => handleView(agents.name)} className="text-blue-400 hover:underline">
+            <button onClick={() => setShowAgentPopUp(true)} className="text-blue-400 hover:underline">
               <FontAwesomeIcon icon={faEye} />
             </button>
+            {showAgentPopUp && (
+                <AgentPopUp
+                agent={agents._id}
+                onClose={() => setShowAgentPopUp(false)}
+                />
+            )}
             <button onClick={() => handleDelete(agents.name)} className="text-red-400 hover:underline">
               <FontAwesomeIcon icon={faTrash} />
             </button>
