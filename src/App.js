@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Provider, useSelector } from 'react-redux'; // Import Provider and useSelector from react-redux
-import store from './store'; // Import your Redux store
+import { Provider, useSelector } from 'react-redux'; 
+import store from './store'; 
 
 import UserDashboard from './Components/UserDashboard/UserDashboard';
-import ClientDashboard from './Components/ClientDashboard/ClientDashboard';
+//import ClientDashboard from './Components/ClientDashboard/ClientDashboard';
 import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 import Homepage from './Components/Homepage/Homepage';
+import PaymentForm from './DashComps/PaymentForm';
 
 const App = () => {
   // Use useSelector to access the loggedIn state from Redux store
@@ -22,10 +23,12 @@ const App = () => {
           {isLoggedIn && (
             <>
               <Route path="/user" element={<UserDashboard />} />
-              <Route path="/client" element={<ClientDashboard />} />
+              {/* <Route path="/client" element={<ClientDashboard />} /> */}
               <Route path="/admin" element={<AdminDashboard />} />
             </>
           )}
+          {/* Route for payment form */}
+          <Route path="/payment" element={<PaymentForm />} />
         </Routes>
       </Router>
     </Provider>
@@ -33,3 +36,4 @@ const App = () => {
 };
 
 export default App;
+  
