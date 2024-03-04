@@ -32,7 +32,7 @@ export default function ClientDashboard() {
     const [open, setOpen] = useState(0);
     const [activeComponent, setActiveComponent] = useState(null);
     const userId = useSelector(state => state.user.userId);
-  
+    const dispatch = useDispatch();
     const handleOpen = (value) => {
       setOpen(open === value ? 0 : value);
     };
@@ -40,6 +40,14 @@ export default function ClientDashboard() {
     const handleComponentChange = (componentName) => {
       setActiveComponent(componentName);
     };
+
+    const handleLogout = () => {
+      // Dispatch action to update Redux state
+      dispatch({ type: 'LOGOUT' });
+      // Show alert
+      alert('Agent logged out successfully!');
+      window.location.href = '/';
+  };
 
       function classNames(...classes) {
         return classes.filter(Boolean).join(' ')
@@ -105,7 +113,7 @@ export default function ClientDashboard() {
                 <Chip value="12" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
             </ListItemSuffix>
             </ListItem>
-            <ListItem>
+            <ListItem onClick={handleLogout}>
             <ListItemPrefix>
                 <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
@@ -181,6 +189,7 @@ export default function ClientDashboard() {
                       <a
                         href="#"
                         className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                        onClick={handleLogout}
                       >
                         Sign out
                       </a>
