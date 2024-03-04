@@ -32,7 +32,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="bg-white-100 flex items-center justify-center h-screen">
+    <div className="bg-white-100 flex items-center justify-center h-screen" >
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
         <div className="flex items-center space-x-2 mb-6">
           <img src="https://unsplash.it/40/40?image=883" alt="Lock Icon" className="rounded-full" />

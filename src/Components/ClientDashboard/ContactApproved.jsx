@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 export default function ContactApproved() {
     const [contactRequests, setContactRequests] = useState([]);
-    
+
     const userId = useSelector(state => state.user.userId);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ export default function ContactApproved() {
                 }
                 const data = await response.json();
                 // Filter messages with status "request"
-                const filteredRequests = data.filter(request => request.recipient===userId);
+                const filteredRequests = data.filter(request => request.recipient === userId);
                 filteredRequests.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 setContactRequests(filteredRequests);
             } catch (error) {
@@ -33,7 +33,7 @@ export default function ContactApproved() {
                     <table className="w-full">
                         <thead>
                             <tr className="bg-blue-600 text-left text-xs font-semibold uppercase tracking-widest text-white">
-                                <th className="px-5 py-3">Recipient ID</th>
+                                <th className="px-5 py-3">Sender ID</th>
                                 <th className="px-5 py-3">Message</th>
                                 <th className="px-5 py-3">Created at</th>
                                 <th className="px-5 py-3">Status</th>
@@ -42,7 +42,7 @@ export default function ContactApproved() {
                         <tbody className="text-gray-500">
                             {contactRequests.map((request, index) => (
                                 <tr key={index} className="bg-white">
-                                    <td className="border-b border-gray-200 px-5 py-5 text-sm">{request.recipient}</td>
+                                    <td className="border-b border-gray-200 px-5 py-5 text-sm">{request.sender}</td>
                                     <td className="border-b border-gray-200 px-5 py-5 text-sm">{request.message}</td>
                                     <td className="border-b border-gray-200 px-5 py-5 text-sm">{request.createdAt}</td>
                                     <td className="border-b border-gray-200 px-5 py-5 text-sm">
