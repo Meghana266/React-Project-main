@@ -5,32 +5,56 @@ import ContactForm from './ContactForm';
 
 const UserPopUp = ({ user, onClose }) => {
     const [showContactForm, setShowContactForm] = useState(false);
-    const [users, setUsers] = useState([]);
+    const userId = useSelector(state => state.user.userId);
+    const [postedHouses, setPostedHouses] = useState([]);
+    const [postedLands, setPostedLands] = useState([]);
+    const [totalPostedProperties, setTotalPostedProperties] = useState(0);
 
-    // Fetching Agents every 10 seconds
     useEffect(() => {
-        const fetchusers = async () => {
+        const fetchPostedHouses = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/users`);
-                if (!response.ok) {
-                    throw new Error("Failed to fetch users");
+                const housesResponse = await fetch(`http://localhost:5000/houses`);
+                if (!housesResponse.ok) {
+                    throw new Error('Failed to fetch houses');
                 }
-                const UserData = await response.json();
-                setUsers(UserData);
+                const housesData = await housesResponse.json();
+                const filteredHouses = housesData.filter(house => house.userId === user._id);
+                setPostedHouses(filteredHouses);
             } catch (error) {
-                console.error("Error fetching users:", error);
+                console.error('Error fetching houses:', error);
             }
         };
+    
+        fetchPostedHouses();
+        const interval1 = setInterval(fetchPostedHouses, 5000);
+    
+        return () => clearInterval(interval1);
+    }, [userId]);
+    
+    useEffect(() => {
+        const fetchPostedLands = async () => {
+            try {
+                const landsResponse = await fetch(`http://localhost:5000/lands`);
+                if (!landsResponse.ok) {
+                    throw new Error('Failed to fetch lands');
+                }
+                const landsData = await landsResponse.json();
+                const filteredLands = landsData.filter(land => land.userId === user._id);
+                setPostedLands(filteredLands);
+            } catch (error) {
+                console.error('Error fetching lands:', error);
+            }
+        };
+    
+        fetchPostedLands();
+        const interval2 = setInterval(fetchPostedLands, 5000);
+    
+        return () => clearInterval(interval2);
+    }, [userId]);
+    
 
-        fetchusers();
-        const interval = setInterval(fetchusers, 100);
-
-        return () => clearInterval(interval);
-    }, []); // No dependencies, fetchUsers should only run once
-
-    const userId = useSelector(state => state.user.userId);
     if (!user) {
-    return <div>No agent found with the provided id</div>;
+        return <div>No agent found with the provided id</div>;
     }
 
     return (
@@ -70,9 +94,6 @@ const UserPopUp = ({ user, onClose }) => {
                         </span>
                         
                     </div>
-                    <p className="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
-                        {/* Agent description */}
-                    </p>
                 </div>
                 <div className="p-6 pt-3 flex justify-between">
 
@@ -90,10 +111,33 @@ const UserPopUp = ({ user, onClose }) => {
                     <ContactForm
                         senderId={userId} // Pass the sender ID to the ContactForm component
                         recipientType="Admin" // Or "Architect" based on your logic
-                        recipientId={user} // Pass the userId of the house owner
+                        recipientId={user._id} // Pass the userId of the house owner
                         onClose={() => setShowContactForm(false)}
                     />
                 )}
+
+                {/* Display posted properties */}
+                <div className="p-6">
+                    <h3>Properties posted by {user.name}:</h3>
+                    {postedHouses.length > 0 && (
+                        <ul>
+                            {/* Render posted houses */}
+                            {postedHouses.map(house => (
+                                <li key={house._id}>{house.title}</li>
+                            ))}
+                        </ul>
+                    )}
+                    {postedLands.length > 0 && (
+                        <ul>
+                            {/* Render posted lands */}
+                            {postedLands.map(land => (
+                                <li key={land._id}>{land.title}</li>
+                            ))}
+                        </ul>
+                    )}
+                    <p>Total Posted Properties: {totalPostedProperties}</p>
+                </div>
+
             </div>
         </div>
     );
