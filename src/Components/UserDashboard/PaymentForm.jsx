@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import PostLand from './PostLand';
 
 function PaymentForm() {
     const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ function PaymentForm() {
         securityCode: '123'
     });
 
+    const [submitted, setSubmitted] = useState(false);
     const handleSubmit = async (e) => {
         e.preventDefault();
     
@@ -25,7 +27,7 @@ function PaymentForm() {
                 // Assuming that the presence of a 'message' field indicates success
                 console.log('Payment successful!');
                 alert('Payment successful!');
-    
+                alert('Land Posted Sucessfully!');
                 // Add logic to store payment details in your database if needed
                 // ...
             } else {
@@ -36,6 +38,7 @@ function PaymentForm() {
             console.error('Error:', error);
             alert('Payment failed. Please try again.');
         }
+        setSubmitted(true);
     };
     
     
@@ -48,6 +51,7 @@ function PaymentForm() {
     return (
         <div className="min-w-screen min-h-screen bg-gray-200 flex items-center justify-center px-5 pb-10 pt-16">
             <div className="w-full mx-auto rounded-lg bg-white shadow-lg p-5 text-gray-700" style={{ maxWidth: '600px' }}>
+                {!submitted ? (
                 <form onSubmit={handleSubmit }action="/process-payment" method="post">
 
                     <div className="w-full pt-1 pb-5">
@@ -57,6 +61,8 @@ function PaymentForm() {
                     </div>
                     <div className="mb-10">
                         <h1 className="text-center font-bold text-xl uppercase">Secure payment info</h1>
+                        <br></br>
+                        <h1><b><i>You need to Pay an amount of 1000/- to post Land</i></b></h1>
                     </div>
                     <div className="mb-3 flex -mx-2">
                         <div className="px-2">
@@ -129,6 +135,9 @@ function PaymentForm() {
                         <button type="submit" className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"><i className="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
                     </div>
                 </form>
+                ) : (
+                    <PostLand />
+                )}
             </div>
         </div>
     );

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-
+import PaymentFormHouse from './PaymentFormHouse'
 
 const PostHouse = () => {
+    const [submitted, setSubmitted] = useState(false);
     const [formData, setFormData] = useState({
         title: '',
         location: '',
@@ -59,7 +60,7 @@ const PostHouse = () => {
             });
 
             if (response.ok) {
-                alert('House Posted Successfully');
+                setSubmitted(true);
             } else {
                 alert('Failed to Post House');
             }
@@ -89,6 +90,7 @@ const PostHouse = () => {
         <div className="p-5">
             {/* Form Fields */}
             <h2 className="text-3xl font-semibold text-blue-700 mb-6">Post A House</h2>
+           {!submitted ? (
             <form onSubmit={handleSubmit} className="mt-8 p-4" >
                 <div className="mt-8 p-4">
                     <div className="w-full mx-2">
@@ -160,6 +162,9 @@ const PostHouse = () => {
                     </div>
                 </div>
             </form>
+           ) : ( 
+            <PaymentFormHouse setSubmitted={setSubmitted}/>
+           )}
         </div>
     );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import PaymentForm from './PaymentForm';
 
 const PostLand = () => {
     const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ const PostLand = () => {
         contactInfo: '',
         images: []
     });
-
+    const [submitted, setSubmitted] = useState(false);
     const userId = useSelector(state => state.user.userId); 
 
     const handleChange = (e) => {
@@ -33,6 +34,7 @@ const PostLand = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         formData.userId = userId;
+        
     
         const formDataToSend = new FormData();// Append userId to formDataToSend
     
@@ -53,7 +55,7 @@ const PostLand = () => {
             });
     
             if (response.ok) {
-                alert('Land Posted Successfully');
+                setSubmitted(true);
             } else {
                 alert('Failed to Upload Land');
             }
@@ -70,6 +72,7 @@ const PostLand = () => {
             contactInfo: '',
             images: [] // Reset userId field
         });
+        
     };
     
 
@@ -77,6 +80,7 @@ const PostLand = () => {
         <div className="p-5">
             {/* Form Fields */}
             <h2 className="text-3xl font-semibold text-blue-700 mb-6">Post Land</h2>
+            {!submitted ? (
             <form onSubmit={handleSubmit} className="mt-8 p-4" >
             <div className="mt-8 p-4">
                 <div className="w-full mx-2">
@@ -174,6 +178,9 @@ const PostLand = () => {
                 </div>
             </div>
             </form>
+            ) : (
+                <PaymentForm setSubmitted={setSubmitted}/>
+            )}
         </div>
     );
 };

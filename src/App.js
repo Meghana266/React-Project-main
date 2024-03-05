@@ -7,7 +7,10 @@ import UserDashboard from './Components/UserDashboard/UserDashboard';
 import ClientDashboard from './Components/ClientDashboard/ClientDashboard';
 import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 import Homepage from './Components/Homepage/Homepage';
-import PaymentForm from './DashComps/PaymentForm';
+import PaymentForm from './Components/UserDashboard/PaymentForm';
+
+
+
 
 const App = () => {
   // Use useSelector to access the loggedIn state from Redux store
@@ -25,10 +28,12 @@ const App = () => {
               <Route path="/user" element={<UserDashboard />} />
               <Route path="/client" element={<ClientDashboard />} />
               <Route path="/admin" element={<AdminDashboard />} />
+           
             </>
           )}
           {/* Route for payment form */}
-          <Route path="/payment" element={<PaymentForm />} />
+   
+          {/* <Route path="/payment" element={<PaymentForm />} /> */}
         </Routes>
       </Router>
     </Provider>
