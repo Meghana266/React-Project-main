@@ -101,11 +101,11 @@ const UserPopUp = ({ user, onClose }) => {
                 {/* Display posted properties */}
                 <div className="p-6">
                     <h3>Properties posted by {user.name}:</h3>
-                    <h4>Posted Houses : {postedHouses.length}</h4>
                     <div className="mb-6 sm:mb-10 lg:mb-16">
                         <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">Posted Houses</h2>
                         {postedHouses.length > 0 && (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            
                             {postedHouses.map((house, index) => (
                             <div key={`posted-house-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md">
                                 {/* Display house image */}
