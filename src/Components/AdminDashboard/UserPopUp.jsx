@@ -95,8 +95,60 @@ const UserPopUp = ({ user, onClose }) => {
                         
                     </div>
                 </div>
-                <div className="p-6 pt-3 flex justify-between">
 
+                {/* Display posted properties */}
+                <div className="p-6">
+                    <h3>Properties posted by {user.name}:</h3>
+                    <h4>Posted Houses : {postedHouses.length}</h4>
+                    <div className="mb-6 sm:mb-10 lg:mb-16">
+                        <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">Posted Houses</h2>
+                        {postedHouses.length > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {postedHouses.map((house, index) => (
+                            <div key={`posted-house-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md">
+                                {/* Display house image */}
+                                <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt={house.title} className="w-full h-48 object-cover" />
+
+                                {/* Display house details */}
+                                <div className="p-4">
+                                <a href="#" className="block text-xl font-bold text-gray-800 hover:text-blue-500 mb-2">{house.title}</a>
+                                <p className="text-gray-600 mb-2">Location: {house.location}</p>
+                                <p className="text-gray-600 mb-2">Price: {house.price}</p>
+                                <p className="text-gray-600">Square Footage: {house.squareFootage}</p>
+                                </div>
+                            </div>
+                            ))}
+                        </div>
+                        )}
+                        <h4>Posted Houses : {postedHouses.length}</h4>
+                    </div>
+
+                    {/* Posted Lands */}
+                    <div className="mb-6 sm:mb-10 lg:mb-16">
+                        <h2 className="mb-4 text-center text-2xl font-bold text-gray-800 md:mb-6 lg:text-3xl">Posted Lands</h2>
+                        {postedLands.length > 0 && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {postedLands.map((land, index) => (
+                            <div key={`posted-land-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md">
+                                {/* Display land image */}
+                                <img src={land.images[0]} alt={land.title} className="w-full h-48 object-cover" />
+
+                                {/* Display land details */}
+                                <div className="p-4">
+                                <a href="#" className="block text-xl font-bold text-gray-800 hover:text-blue-500 mb-2">{land.title}</a>
+                                <p className="text-gray-600 mb-2">Location: {land.location}</p>
+                                <p className="text-gray-600 mb-2">Price: {land.price}</p>
+                                <p className="text-gray-600">Area: {land.area}</p>
+                                </div>
+
+                            </div>
+                            ))}
+                        </div>
+                        )}
+                        <h4>Posted Lands : {postedLands.length}</h4>
+                    </div>
+                </div>
+                <div className="p-6 pt-3 flex justify-between">
                     <button
                         className="flex items-center justify-center w-1/2 rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         type="button"
@@ -106,38 +158,15 @@ const UserPopUp = ({ user, onClose }) => {
                         <PhoneIcon className="h-5 w-5 text-white mr-2" />
                         Contact
                     </button>
-                </div>
-                {showContactForm && (
+                    </div>
+                    {showContactForm && (
                     <ContactForm
                         senderId={userId} // Pass the sender ID to the ContactForm component
                         recipientType="Admin" // Or "Architect" based on your logic
                         recipientId={user._id} // Pass the userId of the house owner
                         onClose={() => setShowContactForm(false)}
                     />
-                )}
-
-                {/* Display posted properties */}
-                <div className="p-6">
-                    <h3>Properties posted by {user.name}:</h3>
-                    {postedHouses.length > 0 && (
-                        <ul>
-                            {/* Render posted houses */}
-                            {postedHouses.map(house => (
-                                <li key={house._id}>{house.title}</li>
-                            ))}
-                        </ul>
                     )}
-                    {postedLands.length > 0 && (
-                        <ul>
-                            {/* Render posted lands */}
-                            {postedLands.map(land => (
-                                <li key={land._id}>{land.title}</li>
-                            ))}
-                        </ul>
-                    )}
-                    <p>Total Posted Properties: {totalPostedProperties}</p>
-                </div>
-
             </div>
         </div>
     );
