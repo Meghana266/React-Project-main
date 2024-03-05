@@ -207,7 +207,7 @@ export default function AdminDashboard() {
         </Card>
       </div>
       <div className="w-3/4 w-full relative">
-        <div className="bg-gray-800 sticky top-0 z-50">
+        <div className="bg-gray-800 sticky top-0 z-1">
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
               <div className="hidden sm:flex items-center mx-auto">

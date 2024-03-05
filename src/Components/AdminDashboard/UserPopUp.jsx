@@ -58,11 +58,13 @@ const UserPopUp = ({ user, onClose }) => {
     }
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
-                <div className="flex justify-end">
-                    <button className='hover:bg-white' onClick={onClose}>&times;</button>
-                </div>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto z-100">
+    <div className="relative flex flex-col max-w-full md:max-w-[26rem] rounded-xl bg-white text-gray-700 shadow-lg overflow-y-auto max-h-full">
+       <div className="flex justify-end">
+                <button className="hover:bg-white" onClick={onClose}>
+                    &times;
+                </button>
+            </div>
                 <div className="p-6">
                     <div className="mb-3 flex items-center justify-between">
                         <h5 className="block font-sans text-xl font-medium leading-snug tracking-normal text-blue-gray-900 antialiased">
