@@ -8,6 +8,7 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [userData, setUserData] = useState([]);
   const [showUserPopUp, setShowUserPopUp] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     // Fetch data from the backend API when the component mounts
@@ -105,14 +106,14 @@ const Users = () => {
             <p className="hidden ml-4 text-gray-160 sm:block">{users.mobile}</p>
           </div>
           <div className="flex items-center justify-end space-x-4 p-3 mr-20 xl:p-5">
-            <button onClick={() => setShowUserPopUp(true)} className="text-blue-400 hover:underline">
+            <button onClick={() => setSelectedUser(users)} className="text-blue-400 hover:underline">
               <FontAwesomeIcon icon={faEye} />
             </button>
-            {showUserPopUp && (
-                <UserPopUp
-                user={users._id}
-                onClose={() => setShowUserPopUp(false)}
-                />
+            {selectedUser && selectedUser._id === users._id && (
+              <UserPopUp
+                user={selectedUser}
+                onClose={() => setSelectedUser(null)}
+              />
             )}
             <button onClick={() => handleDelete(users.name)} className="text-red-400 hover:underline">
               <FontAwesomeIcon icon={faTrash} />
