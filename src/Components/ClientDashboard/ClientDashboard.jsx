@@ -4,7 +4,6 @@ import Profile from "./Profile";
 import ContactRequest from "./ContactRequest";
 import ContactApproved from "./ContactApproved";
 import ChangePassword from "./ChangePassword";
-import Notifications from "./Notifications";
 import { RiHome4Line } from 'react-icons/ri';
 import {
   Card,
@@ -30,7 +29,7 @@ import { BellIcon } from '@heroicons/react/24/outline'
 
 export default function ClientDashboard() {
   const [open, setOpen] = useState(0);
-  const [activeComponent, setActiveComponent] = useState(null);
+  const [activeComponent, setActiveComponent] = useState("Profile");
   const userId = useSelector(state => state.user.userId);
   const dispatch = useDispatch();
   const handleOpen = (value) => {
@@ -58,70 +57,65 @@ export default function ClientDashboard() {
 
     <div className="flex h-full w-full " >
 
-      <div className="w-1/4">
-        <Card className="fixed inset-0 border-none max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-          <div className="mb-2 p-4 flex">
-            <RiHome4Line style={{ marginRight: '8px', fontSize: '24px' }} />
+      <div className="w-1/4 bg-gray-800">
+        <Card className="fixed inset-0 border-none max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-gray-800 text-white rounded-none">
+          <div className="mb-4 p-4 flex items-center">
+            <RiHome4Line style={{ marginRight: '8px', fontSize: '28px' }} />
             <Typography variant="h5" color="blue-gray">
               Dream Home
             </Typography>
+            
           </div>
           <List>
             <hr className="my-4 border-blue-gray-50" />
-            <ListItem onClick={() => handleComponentChange("Profile")}>
+            <ListItem className="text-base mb-2" onClick={() => handleComponentChange("Profile")}>
               <ListItemPrefix>
-                <UserCircleIcon className="h-5 w-5" />
+                <UserCircleIcon className="h-6 w-6" />
               </ListItemPrefix>
               Profile
               <ListItemSuffix>
-                <Chip value="" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip value="" size="sm" variant="ghost" color="blue-gray" />
               </ListItemSuffix>
             </ListItem>
-            <ListItem onClick={() => handleComponentChange("ContactRequest")}>
+            <ListItem className="text-base mb-2" onClick={() => handleComponentChange("ContactRequest")}>
               <ListItemPrefix>
-                <PhoneArrowDownLeftIcon className="h-5 w-5" />
+                <PhoneArrowDownLeftIcon className="h-6 w-6" />
               </ListItemPrefix>
               Contact Request
               <ListItemSuffix>
-                <Chip value="5" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip value="5" size="sm" variant="ghost" color="blue-gray" />
               </ListItemSuffix>
             </ListItem>
-            <ListItem onClick={() => handleComponentChange("ContactApproved")}>
+            <ListItem className="text-base mb-2" onClick={() => handleComponentChange("ContactApproved")}>
               <ListItemPrefix>
-                <Cog6ToothIcon className="h-5 w-5" />
+                <Cog6ToothIcon className="h-6 w-6" />
               </ListItemPrefix>
               Contact Approved
               <ListItemSuffix>
-                <Chip value="14" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip value="14" size="sm" variant="ghost" color="blue-gray" />
               </ListItemSuffix>
             </ListItem>
-            <ListItem onClick={() => handleComponentChange("ChangePassword")}>
+            <ListItem className="text-base mb-2" onClick={() => handleComponentChange("ChangePassword")}>
               <ListItemPrefix>
-                <KeyIcon className="h-5 w-5" />
+                <KeyIcon className="h-6 w-6" />
               </ListItemPrefix>
               Change Password
               <ListItemSuffix>
-                <Chip value="" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
+                <Chip value="" size="sm" variant="ghost" color="blue-gray" />
               </ListItemSuffix>
             </ListItem>
-            <ListItem onClick={() => handleComponentChange("Notifications")}>
+            <ListItem className="text-base" onClick={handleLogout}>
               <ListItemPrefix>
-                <BellAlertIcon className="h-5 w-5" />
-              </ListItemPrefix>
-              Notifications
-              <ListItemSuffix>
-                <Chip value="12" size="sm" variant="ghost" color="blue-gray" className="rounded-full" />
-              </ListItemSuffix>
-            </ListItem>
-            <ListItem onClick={handleLogout}>
-              <ListItemPrefix>
-                <PowerIcon className="h-5 w-5" />
+                <PowerIcon className="h-6 w-6" />
               </ListItemPrefix>
               Log Out
             </ListItem>
           </List>
         </Card>
       </div>
+
+
+
       <div className="w-3/4 w-full relative">
         <div className="bg-gray-800 sticky top-0 z-50">
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -206,7 +200,6 @@ export default function ClientDashboard() {
           {activeComponent === "ContactRequest" && <ContactRequest />}
           {activeComponent === "ContactApproved" && <ContactApproved />}
           {activeComponent === "ChangePassword" && <ChangePassword />}
-          {activeComponent === "Notifications" && <Notifications />}
         </div>
       </div>
     </div>

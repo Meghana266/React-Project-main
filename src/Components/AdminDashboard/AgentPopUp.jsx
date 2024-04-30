@@ -12,7 +12,7 @@ const AgentPopUp = ({ agent, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+      <div className="relative flex w-full max-w-[40rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
         <div className="flex justify-end">
           <button className='hover:bg-white' onClick={onClose}>&times;</button>
         </div>
@@ -25,24 +25,64 @@ const AgentPopUp = ({ agent, onClose }) => {
               {agent.rating} Rating
             </p>
           </div>
-          <div className="group mt-8">
-            <div className="mb-4">
-              <p className="font-medium">Contact:</p>
-              <p>{agent.mobile}</p>
+          <div className="grid grid-cols-2 gap-4">
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Name:</label>
+                <p className="text-gray-900">{agent.name}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Email:</label>
+                <p className="text-gray-900">{agent.email}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Mobile:</label>
+                <p className="text-gray-900">{agent.mobile}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Experience:</label>
+                <p className="text-gray-900">{agent.experience}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Education:</label>
+                <p className="text-gray-900">{agent.education}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Languages:</label>
+                <p className="text-gray-900">{agent.languages}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Profession:</label>
+                <p className="text-gray-900">{agent.profession}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Certifications:</label>
+                <p className="text-gray-900">{agent.certifications}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Projects Completed:</label>
+                <p className="text-gray-900">{agent.projectsCompleted}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Skills:</label>
+                <p className="text-gray-900">{agent.skills}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Specializations:</label>
+                <p className="text-gray-900">{agent.specializations}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Contact Address:</label>
+                <p className="text-gray-900">{agent.contactAddress}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">LinkedIn URL:</label>
+                <p className="text-gray-900">{agent.linkedinUrl}</p>
+              </div>
+              <div className="col-span-1">
+                <label className="text-gray-700 font-semibold">Twitter URL:</label>
+                <p className="text-gray-900">{agent.twitterUrl}</p>
+              </div>
             </div>
-            <div className="mb-4">
-              <p className="font-medium">Email:</p>
-              <p>{agent.email}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-medium">Profession:</p>
-              <p>{agent.profession}</p>
-            </div>
-            <div className="mb-4">
-              <p className="font-medium">Experience:</p>
-              <p>{agent.experience}</p>
-            </div>
-          </div>
           <p className="block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
             {/* Agent description */}
           </p>
