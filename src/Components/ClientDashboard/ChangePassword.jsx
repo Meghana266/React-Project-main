@@ -32,44 +32,35 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="bg-white-100 flex items-center justify-center h-screen" >
-      <div className="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
-        <div className="flex items-center space-x-2 mb-6">
-          <img src="https://unsplash.it/40/40?image=883" alt="Lock Icon" className="rounded-full" />
-          <h1 className="text-xl font-semibold">Change Password</h1>
+    <div className="flex items-center justify-center  ">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <div className="flex items-center space-x-3 mb-6">
+          <img src="https://unsplash.it/40/40?image=883" alt="Lock Icon" className="w-10 h-10 rounded-full" />
+          <h1 className="text-lg font-semibold">Change Password</h1>
         </div>
-        <p className="text-sm text-gray-600 mb-6">Update password for enhanced account security.</p>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <p className="text-sm text-gray-700 mb-6">Update your password for enhanced account security.</p>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="currentPassword" className="text-sm font-medium text-gray-700 block mb-2">Current Password *</label>
-            <input type="password" id="currentPassword" className="password-input form-input block w-full border border-gray-300 rounded-md shadow-sm" required value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-          </div>
-          <div>
-            <label htmlFor="newPassword" className="text-sm font-medium text-gray-700 block mb-2">New Password *</label>
-            <input type="password" id="newPassword" className="password-input form-input block w-full border border-gray-300 rounded-md shadow-sm" required value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+            <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">Current Password *</label>
+            <input type="password" id="currentPassword" className="form-input w-full border rounded-md shadow-sm" required value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
           </div>
           <div>
-            <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 block mb-2">Confirm New Password *</label>
-            <input type="password" id="confirmPassword" className="password-input form-input block border w-full border-gray-300 rounded-md shadow-sm" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-            <button type="button" onClick={clearConfirmPassword} className="text-xs text-blue-600 hover:underline mt-1">Clear</button>
+            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">New Password *</label>
+            <input type="password" id="newPassword" className="form-input w-full border rounded-md shadow-sm" required value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
           </div>
-          <div id="passwordCriteria" className="text-sm space-y-2">
-            <p className="text-red-500">Weak password. Must contain:</p>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>At least 1 uppercase</li>
-              <li>At least 1 number</li>
-              <li>At least 8 characters</li>
-            </ul>
+          <div>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password *</label>
+            <input type="password" id="confirmPassword" className="form-input w-full border rounded-md shadow-sm" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
           </div>
-          {passwordMismatch && <div className="text-sm text-red-500 mb-2">Passwords do not match.</div>}
-          <div className="flex justify-between">
-            <button type="button" onClick={discardChanges} className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring focus:border-blue-300">Discard</button>
-            <button type="submit" className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Apply Changes</button>
-          </div>
+          <button type="button" onClick={clearConfirmPassword} className="text-xs text-blue-600 hover:underline mt-1">Clear</button>
+          {passwordMismatch && <div className="text-sm text-red-500">Passwords do not match.</div>}
+          <button type="button" onClick={discardChanges} className="text-sm text-gray-700 bg-gray-200 rounded-md py-2 w-full hover:bg-gray-300 focus:outline-none focus:ring focus:border-blue-300">Discard</button>
+          <button type="submit" className="text-sm font-medium text-white bg-blue-600 rounded-md py-2 w-full hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Apply Changes</button>
         </form>
       </div>
     </div>
   );
+  
 };
 
 export default ChangePassword;

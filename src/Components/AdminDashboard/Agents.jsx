@@ -37,7 +37,7 @@ const Agents = () => {
   });
 
   return (
-    <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-lg dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+    <div className="rounded-sm border border-stroke bg-white px-5 pt-2.5 pb-2.5 shadow-lg dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 ">
       <h4 className="mb-6 text-xl font-semibold text-black ">Agents</h4>
 
       <div className="flex items-center space-x-4 mb-4">

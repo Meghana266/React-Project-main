@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import Stats from "./Stats";
 import Agents from "./Agents";
 import Users from "./Users";
@@ -37,7 +38,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 export default function AdminDashboard() {
   const [open, setOpen] = useState(0);
   const [activeComponent, setActiveComponent] = useState(null);
-
+  const dispatch = useDispatch();
   function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
   }
@@ -63,10 +64,19 @@ export default function AdminDashboard() {
     setActiveComponent(componentName);
   };
 
+  const handleLogout = () => {
+    // Dispatch action to update Redux state
+    dispatch({ type: 'LOGOUT' });
+    // Show alert
+    alert('Agent logged out successfully!');
+    window.location.href = '/';
+  };
+
+
   return (
     <div className="flex h-full w-full">
-      <div className="w-1/4">
-        <Card className="fixed inset-0 border-none max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <div className="w-1/4 bg-gray-800">
+        <Card className="fixed inset-0 border-none max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5 bg-gray-800 text-white rounded-none">
           <div className="mb-2 p-4 flex">
             <RiHome4Line style={{ marginRight: '8px', fontSize: '24px' }} />
             <Typography variant="h5" color="blue-gray" onClick={() => handleComponentChange("ShowStats")}>
@@ -99,7 +109,7 @@ export default function AdminDashboard() {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <ListItem onClick={() => handleComponentChange("ShowHouses")}>
+                  <ListItem onClick={() => handleComponentChange("ShowHouses")} className="text-white">
                     <ListItemPrefix>
                       <ChevronRightIcon
                         strokeWidth={3}
@@ -108,7 +118,7 @@ export default function AdminDashboard() {
                     </ListItemPrefix>
                     Houses
                   </ListItem>
-                  <ListItem onClick={() => handleComponentChange("ShowLands")}>
+                  <ListItem onClick={() => handleComponentChange("ShowLands")} className="text-white">
                     <ListItemPrefix>
                       <ChevronRightIcon
                         strokeWidth={3}
@@ -145,7 +155,7 @@ export default function AdminDashboard() {
               </ListItem>
               <AccordionBody className="py-1">
                 <List className="p-0">
-                  <ListItem onClick={() => handleComponentChange("Agent")}>
+                  <ListItem onClick={() => handleComponentChange("Agent")} className="text-white">
                     <ListItemPrefix>
                       <ChevronRightIcon
                         strokeWidth={3}
@@ -154,7 +164,7 @@ export default function AdminDashboard() {
                     </ListItemPrefix>
                     Agents
                   </ListItem>
-                  <ListItem onClick={() => handleComponentChange("User")}>
+                  <ListItem onClick={() => handleComponentChange("User")} className="text-white">
                     <ListItemPrefix>
                       <ChevronRightIcon
                         strokeWidth={3}
@@ -197,7 +207,7 @@ export default function AdminDashboard() {
               </ListItemPrefix>
               Change Password
             </ListItem>
-            <ListItem>
+            <ListItem className="text-base" onClick={handleLogout}>
               <ListItemPrefix>
                 <PowerIcon className="h-5 w-5 text-gray-500" />
               </ListItemPrefix>
