@@ -9,9 +9,6 @@ import AdminDashboard from './Components/AdminDashboard/AdminDashboard';
 import Homepage from './Components/Homepage/Homepage';
 import PaymentForm from './Components/UserDashboard/PaymentForm';
 
-
-
-
 const App = () => {
   // Use useSelector to access the loggedIn state from Redux store
   const isLoggedIn = useSelector(state => state.user.loggedIn);
