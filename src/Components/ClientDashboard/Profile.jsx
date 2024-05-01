@@ -130,12 +130,14 @@ const Profile = () => {
   };
 
   return (
+    
     <div className="bg-white-100 " >
       <div className="container mx-auto my-5 p-5">
         <div className="md:flex no-wrap md:-mx-2">
           {/* Left Side */}
           {!showForm && (
-          <div className="profile-card justify-center bg-white p-6 border border-gray-300 rounded-lg shadow-sm">
+          <div className="flex justify items-center h-full">
+          <div className="profile-card justify-center bg-white p-6 border border-gray-300 rounded-lg shadow-sm ml-6">
             <h2 className="text-gray-900 font-bold text-xl mb-4">Profile Information</h2>
             <div className="grid grid-cols-2 gap-4">
               <div className="col-span-1">
@@ -202,10 +204,12 @@ const Profile = () => {
               </button>
             </div>
           </div>
+          </div>
           )
         }
           {/* Right Side */}
           {showForm && (
+          
           <div className="w-full md:w-9/12 mx-2 h-64">
             {/* Profile tab */}
             {/* About Section */}
