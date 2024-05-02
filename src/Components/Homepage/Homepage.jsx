@@ -51,11 +51,11 @@ const Homepage = () => {
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                // Fetch data from both endpoints concurrently
-                const [housesResponse, landsResponse] = await Promise.all([
-                    fetch('https://api-main-1-kdm2.onrender.com/houses').then(response => response.json()),
-                    fetch('https://api-main-1-kdm2.onrender.com/lands').then(response => response.json())
-                ]);
+                const data = await fetch('https://api-main-1-kdm2.onrender.com/houses');
+                const housesResponse = data.json;
+
+                const lands = await fetch('https://api-main-1-kdm2.onrender.com/lands');
+                const landsResponse = lands.json;
     
                 // Merge the results into a single list of properties
                 const mergedProperties = [...housesResponse, ...landsResponse];
