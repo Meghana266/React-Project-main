@@ -51,10 +51,10 @@ const Homepage = () => {
     useEffect(() => {
         const fetchProperties = async () => {
             try {
-                const data = await fetch('https://api-main-1-kdm2.onrender.com/houses');
+                const data = null;
                 const housesResponse = data.json;
 
-                const lands = await fetch('https://api-main-1-kdm2.onrender.com/lands');
+                const lands = null
                 const landsResponse = lands.json;
     
                 // Merge the results into a single list of properties
