@@ -12,7 +12,7 @@ const Agents = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/agents');
+        const response = await fetch('https://api-main-1-kdm2.onrender.com/agents');
         const data = await response.json();
         setAgentData(data);
       } catch (error) {

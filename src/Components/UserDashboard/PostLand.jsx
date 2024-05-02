@@ -49,7 +49,7 @@ const PostLand = () => {
         }
     
         try {
-            const response = await fetch('http://localhost:5000/lands', {
+            const response = await fetch('https://api-main-1-kdm2.onrender.com/lands', {
                 method: 'POST',
                 body: formDataToSend
             });

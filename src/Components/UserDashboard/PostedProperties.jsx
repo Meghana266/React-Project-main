@@ -6,7 +6,7 @@ export default function PostedProperties({ houses, lands }) {
   // Client-side code (example using fetch API)
   const handleDeleteHouse = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/deleteHouse/${id}`, {
+      const response = await fetch(`https://api-main-1-kdm2.onrender.com/deleteHouse/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export default function PostedProperties({ houses, lands }) {
   
   const handleDeleteLand = async (landId) => {
     try {
-      const response = await fetch(`http://localhost:5000/deleteLand/${landId}`, {
+      const response = await fetch(`https://api-main-1-kdm2.onrender.com/deleteLand/${landId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export default function PostedProperties({ houses, lands }) {
     const fetchProperties = async () => {
       try {
         // Fetch houses
-        const housesResponse = await fetch(`http://localhost:5000/houses`);
+        const housesResponse = await fetch(`https://api-main-1-kdm2.onrender.com/houses`);
         if (!housesResponse.ok) {
           throw new Error('Failed to fetch houses');
         }
@@ -63,7 +63,7 @@ export default function PostedProperties({ houses, lands }) {
         // setHouses(housesData);
 
         // Fetch lands
-        const landsResponse = await fetch(`http://localhost:5000/lands`);
+        const landsResponse = await fetch(`https://api-main-1-kdm2.onrender.com/lands`);
         if (!landsResponse.ok) {
           throw new Error('Failed to fetch lands');
         }
@@ -89,7 +89,7 @@ export default function PostedProperties({ houses, lands }) {
           {houses.map((house, index) => (
             <div key={`house-${index}`} className="flex flex-wrap gap-x-4 overflow-hidden rounded-lg border sm:gap-y-4 lg:gap-6">
               {/* Display house image */}
-              <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt={house.title} className="w-32 h-32 sm:w-40 sm:h-40 object-cover" />
+              <img src={`https://api-main-1-kdm2.onrender.com/${house.images[0].replace(/\\/g, '/')}`} alt={house.title} className="w-32 h-32 sm:w-40 sm:h-40 object-cover" />
 
               {/* Display house details */}
               <div className="flex flex-1 flex-col justify-between py-4">

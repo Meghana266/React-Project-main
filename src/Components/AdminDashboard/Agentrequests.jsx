@@ -30,7 +30,7 @@ const Agentrequests = () => {
   
   const fetchAgentRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/agents');
+      const response = await axios.get('https://api-main-1-kdm2.onrender.com/agents');
       setagents(response.data.filter(agent => !agent.is_verified));
     } catch (error) {
       console.error('Error fetching agents:', error);
@@ -42,7 +42,7 @@ const Agentrequests = () => {
       const agentToUpdate = agents.find((agent) => agent._id === id);
       if (agentToUpdate) {
         const updatedAgent = { ...agentToUpdate, is_verified: true };
-        await axios.put(`http://localhost:5000/agents/${agentToUpdate._id}`, updatedAgent);
+        await axios.put(`https://api-main-1-kdm2.onrender.com/agents/${agentToUpdate._id}`, updatedAgent);
         fetchAgentRequests(); // Refresh the list of agents after the update
         if (updatedAgent.is_verified) {
           window.alert(`Agent ${updatedAgent.name} has been verified.`);

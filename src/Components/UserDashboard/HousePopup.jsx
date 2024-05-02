@@ -11,7 +11,7 @@ const HousePopup = ({ house, onClose }) => {
 
   const handleAddToWishlist = async () => {
     try {
-        const response = await fetch('http://localhost:5000/wishlistHouse', {
+        const response = await fetch('https://api-main-1-kdm2.onrender.com/wishlistHouse', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const HousePopup = ({ house, onClose }) => {
                 </div>
                 <div className="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
                     {house.images.length > 0 && (
-                        <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
+                        <img src={`https://api-main-1-kdm2.onrender.com/${house.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
                     )}
                     <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
                 </div>

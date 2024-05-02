@@ -13,7 +13,7 @@ const ContactForm = ({ senderId, recipientType, recipientId, onClose }) => {
     // Validation logic can be added here if needed
 
     try {
-      const response = await fetch('http://localhost:5000/contactRequest', {
+      const response = await fetch('https://api-main-1-kdm2.onrender.com/contactRequest', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

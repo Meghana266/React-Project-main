@@ -9,7 +9,7 @@ export default function ContactApproved() {
     useEffect(() => {
         const fetchContactRequests = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/contactRequests`);
+                const response = await fetch(`https://api-main-1-kdm2.onrender.com/contactRequests`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch contact requests');
                 }

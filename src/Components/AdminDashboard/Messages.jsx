@@ -8,7 +8,7 @@ export default function Messages() {
 
   useEffect(() => {
     // Fetch contacts and count from the backend API
-    fetch("http://localhost:5000/contacts")
+    fetch("https://api-main-1-kdm2.onrender.com/contacts")
       .then((response) => response.json())
       .then((data) => {
         // Check if 'contacts' is an array before using map

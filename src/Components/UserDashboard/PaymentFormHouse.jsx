@@ -17,7 +17,7 @@ function PaymentForm() {
     
         try {
             // Update the URL to match your server endpoint for payment processing
-            const response = await axios.post('http://localhost:5000/process-payment', formData);
+            const response = await axios.post('https://api-main-1-kdm2.onrender.com/process-payment', formData);
     
             // Log the entire response for debugging
             console.log('Server Response:', response);

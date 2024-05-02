@@ -10,7 +10,7 @@ export default function Wishlist({ wishlistHouses, wishlistLands }) {
           {wishlistHouses.map((house, index) => (
             <div key={`wishlist-house-${index}`} className="flex flex-wrap gap-x-4 overflow-hidden rounded-lg border sm:gap-y-4 lg:gap-6">
               {/* Display house image */}
-              <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt={house.title} className="w-32 h-32 sm:w-40 sm:h-40 object-cover" />
+              <img src={`https://api-main-1-kdm2.onrender.com/${house.images[0].replace(/\\/g, '/')}`} alt={house.title} className="w-32 h-32 sm:w-40 sm:h-40 object-cover" />
 
               {/* Display house details */}
               <div className="flex flex-1 flex-col justify-between py-4">
@@ -39,7 +39,7 @@ export default function Wishlist({ wishlistHouses, wishlistLands }) {
           {wishlistLands.map((land, index) => (
             <div key={`wishlist-land-${index}`} className="flex flex-wrap gap-x-4 overflow-hidden rounded-lg border sm:gap-y-4 lg:gap-6">
               {/* Display land image */}
-              <img src={`http://localhost:5000/${land.images[0].replace(/\\/g, '/')}`} alt={land.title} className="w-32 h-32 sm:w-40 sm:h-40 object-cover" />
+              <img src={`https://api-main-1-kdm2.onrender.com/${land.images[0].replace(/\\/g, '/')}`} alt={land.title} className="w-32 h-32 sm:w-40 sm:h-40 object-cover" />
 
               {/* Display land details */}
               <div className="flex flex-1 flex-col justify-between py-4">

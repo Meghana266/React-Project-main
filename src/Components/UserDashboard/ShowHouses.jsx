@@ -9,7 +9,7 @@ const ShowHouses = ({ handleSignupClick, handlePropertyClick }) => {
         // Fetch data from the backend and set it to houses state
         const fetchHousesData = async () => {
             try {
-                const response = await fetch('http://localhost:5000/houses');
+                const response = await fetch('https://api-main-1-kdm2.onrender.com/houses');
                 if (!response.ok) {
                     throw new Error('Failed to fetch houses data');
                 }
@@ -211,7 +211,7 @@ const ShowHouses = ({ handleSignupClick, handlePropertyClick }) => {
                             <div>
                                 {/* Render the first image from the images array */}
                                 {house.images.length > 0 && (
-                                     <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
+                                     <img src={`https://api-main-1-kdm2.onrender.com/${house.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
                                 )}
                             </div>
 

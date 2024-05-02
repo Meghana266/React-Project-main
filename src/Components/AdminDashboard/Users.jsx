@@ -15,7 +15,7 @@ const Users = () => {
     const fetchData = async () => {
       try {
         console.log("Fetching Data....")
-        const response = await fetch('http://localhost:5000/users');
+        const response = await fetch('https://api-main-1-kdm2.onrender.com/users');
         const data = await response.json();
         console.log(data);
         setUserData(data);

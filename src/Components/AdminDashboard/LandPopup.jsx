@@ -7,7 +7,7 @@ const LandPopup = ({ land, onClose }) => {
 
   const handleAddToWishlist = async () => {
     try {
-      const response = await fetch('http://localhost:5000/wishlistLand', {
+      const response = await fetch('https://api-main-1-kdm2.onrender.com/wishlistLand', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ const LandPopup = ({ land, onClose }) => {
         <div className="relative mx-4 mt-4 overflow-hidden rounded-xl bg-blue-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
           {/* Assuming images are present in the 'land' object */}
           {land.images && land.images.length > 0 && (
-            <img src={`http://localhost:5000/${land.images[0].replace(/\\/g, '/')}`} alt="Land" className="" />
+            <img src={`https://api-main-1-kdm2.onrender.com/${land.images[0].replace(/\\/g, '/')}`} alt="Land" className="" />
           )}
           <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
         </div>

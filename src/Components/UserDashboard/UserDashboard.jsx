@@ -66,7 +66,7 @@ export default function UserDashboard() {
         const fetchProperties = async () => {
           try {
             // Fetch houses
-            const housesResponse = await fetch(`http://localhost:5000/houses`);
+            const housesResponse = await fetch(`https://api-main-1-kdm2.onrender.com/houses`);
             if (!housesResponse.ok) {
               throw new Error('Failed to fetch houses');
             }
@@ -74,7 +74,7 @@ export default function UserDashboard() {
             setHouses(housesData);
     
             // Fetch lands
-            const landsResponse = await fetch(`http://localhost:5000/lands`);
+            const landsResponse = await fetch(`https://api-main-1-kdm2.onrender.com/lands`);
             if (!landsResponse.ok) {
               throw new Error('Failed to fetch lands');
             }
@@ -119,8 +119,8 @@ export default function UserDashboard() {
         // Fetch wishlist houses for the specific userID
         const fetchWishlistData = async () => {
             try {
-                const responseHouses = await fetch(`http://localhost:5000/wishlistHouses`);
-                const responseLands = await fetch(`http://localhost:5000/wishlistLands`);
+                const responseHouses = await fetch(`https://api-main-1-kdm2.onrender.com/wishlistHouses`);
+                const responseLands = await fetch(`https://api-main-1-kdm2.onrender.com/wishlistLands`);
                 
                 if (!responseHouses.ok || !responseLands.ok) {
                     throw new Error('Failed to fetch wishlist data');

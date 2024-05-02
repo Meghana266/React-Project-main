@@ -53,8 +53,8 @@ const Homepage = () => {
             try {
                 // Fetch data from both endpoints concurrently
                 const [housesResponse, landsResponse] = await Promise.all([
-                    fetch('http://localhost:5000/houses').then(response => response.json()),
-                    fetch('http://localhost:5000/lands').then(response => response.json())
+                    fetch('https://api-main-1-kdm2.onrender.com/houses').then(response => response.json()),
+                    fetch('https://api-main-1-kdm2.onrender.com/lands').then(response => response.json())
                 ]);
     
                 // Merge the results into a single list of properties
@@ -81,7 +81,7 @@ const Homepage = () => {
 
     useEffect(() => {
         // Fetch agents from the API
-        fetch('http://localhost:5000/agents')
+        fetch('https://api-main-1-kdm2.onrender.com/agents')
             .then(response => response.json())
             .then(data => {
                 setAgents(data);

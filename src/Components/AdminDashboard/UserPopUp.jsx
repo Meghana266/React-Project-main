@@ -13,7 +13,7 @@ const UserPopUp = ({ user, onClose }) => {
     useEffect(() => {
         const fetchPostedHouses = async () => {
             try {
-                const housesResponse = await fetch(`http://localhost:5000/houses`);
+                const housesResponse = await fetch(`https://api-main-1-kdm2.onrender.com/houses`);
                 if (!housesResponse.ok) {
                     throw new Error('Failed to fetch houses');
                 }
@@ -34,7 +34,7 @@ const UserPopUp = ({ user, onClose }) => {
     useEffect(() => {
         const fetchPostedLands = async () => {
             try {
-                const landsResponse = await fetch(`http://localhost:5000/lands`);
+                const landsResponse = await fetch(`https://api-main-1-kdm2.onrender.com/lands`);
                 if (!landsResponse.ok) {
                     throw new Error('Failed to fetch lands');
                 }
@@ -109,7 +109,7 @@ const UserPopUp = ({ user, onClose }) => {
                             {postedHouses.map((house, index) => (
                             <div key={`posted-house-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md">
                                 {/* Display house image */}
-                                <img src={`http://localhost:5000/${house.images[0].replace(/\\/g, '/')}`} alt={house.title} className="w-full h-48 object-cover" />
+                                <img src={`https://api-main-1-kdm2.onrender.com/${house.images[0].replace(/\\/g, '/')}`} alt={house.title} className="w-full h-48 object-cover" />
 
                                 {/* Display house details */}
                                 <div className="p-4">

@@ -52,9 +52,9 @@ const PropertyListing = ({ handleSignupClick, filteredProperties, handleProperty
                         <div key={property._id} className="p-3" onClick={() => handlePropertyClick(property)}>
                             <a className="block relative h-48 rounded overflow-hidden">
                             {property.images.length > 0 && (
-                                    <img src={`http://localhost:5000/${property.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
+                                    <img src={`https://api-main-1-kdm2.onrender.com/${property.images[0].replace(/\\/g, '/')}`} alt="Property" className="" />
                                 )}
-                                <img src={`http://localhost:5000/${property.images[0].replace(/\\/g, '/')}`} alt="property" className="object-cover object-center w-full h-full block"></img>
+                                <img src={`https://api-main-1-kdm2.onrender.com/${property.images[0].replace(/\\/g, '/')}`} alt="property" className="object-cover object-center w-full h-full block"></img>
                             </a>
                             <div className="mt-4">
                                 <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">{property.type}</h3>

@@ -12,7 +12,7 @@ export default function ContactRequest() {
     useEffect(() => {
         const fetchMessages = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/contactRequests`);
+                const response = await fetch(`https://api-main-1-kdm2.onrender.com/contactRequests`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch contact requests");
                 }
@@ -37,7 +37,7 @@ export default function ContactRequest() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/users`);
+                const response = await fetch(`https://api-main-1-kdm2.onrender.com/users`);
                 if (!response.ok) {
                     throw new Error("Failed to fetch users");
                 }
@@ -56,7 +56,7 @@ export default function ContactRequest() {
 
     const handleAction = async (id, status) => {
         try {
-            const response = await fetch(`http://localhost:5000/contactRequest/${id}`, {
+            const response = await fetch(`https://api-main-1-kdm2.onrender.com/contactRequest/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
